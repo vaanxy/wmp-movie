@@ -1,0 +1,10 @@
+{
+	"miniprogramRoot": "./client",
+	"qcloudRoot": "./server",
+	"setting": {
+		"newFeature": true
+	},
+	"appid": "wx4bf6a840251af6c5",
+	"projectname": "wmp-movie",
+	"condition": {}
+}
