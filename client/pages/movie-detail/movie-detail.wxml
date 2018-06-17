@@ -1,2 +1,18 @@
 <!--pages/movie-detail/movie-detail.wxml-->
-<text>pages/movie-detail/movie-detail.wxml</text>
+<view class="movie-wrapper">
+  <view class="movie-info">
+    <image class="movie-image" src="{{movie.image}}"></image>
+    <view class="movie-title">{{movie.title}}</view>
+    <view class="movie-description">{{movie.description}}</view>
+  </view>
+  <view class="action-buttons">
+    <button class="view-comments" bindtap="toCommentList">
+      <image class="btn-icon" src="../../images/movie.png"></image>
+      <view class="btn-text">查看影评</view>
+    </button>
+    <button class="add-comment" bindtap="showActionSheet">
+      <image class="btn-icon" src="../../images/movie.png"></image>
+      <view class="btn-text">添加影评</view>
+    </button>
+  </view>
+</view>

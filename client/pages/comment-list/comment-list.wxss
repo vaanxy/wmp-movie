@@ -1,1 +1,104 @@
 /* pages/comment-list/comment-list.wxss */
+.comment-wrapper {
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #d0d3d3;
+}
+
+.comment-wrapper .avator {
+  width: 100rpx;
+  min-width: 100rpx;
+  height: 100rpx;
+  margin-top: 32rpx;
+  margin-left: 32rpx;
+  border-radius: 50%;
+}
+
+.comment-wrapper .comment-info {
+  flex: 1 1 auto; 
+  padding: 32rpx;
+
+}
+
+.content {
+  padding: 32rpx 0;
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.date {
+  font-size: 30rpx;
+  line-height: 42rpx;
+  color: #d0d3d3;
+}
+
+.actions {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  top: 0;
+  right: 16rpx;
+  width: 240rpx;
+}
+
+.action-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.like-icon {
+  width: 50px;
+  height: 50px;
+  overflow-x: hidden;
+
+}
+
+.like {
+  height: 50px;
+  width: 1450px;
+}
+
+.like.active { 
+  transform: translateX(-96.5517%);
+  transition: transform 1s steps(28); 
+}
+
+.like-text {
+  margin-left: -30rpx;
+  font-size: 25rpx;
+  line-height: 35rpx;
+  color: #d0d3d3;
+}
+
+.like-text.active {
+  color: red;
+}
+
+
+.fave-icon {
+  width: 35px;
+  height: 30px;
+  overflow-x: hidden;
+}
+
+.fave {
+  height: 30px;
+  width: 2389px;
+}
+
+.fave.active { 
+  transform: translateX(-98.186%);
+  transition: transform 1s steps(55); 
+}
+.fave-text {
+  font-size: 20rpx;
+  line-height: 28rpx;
+  color: #d0d3d3;
+}
+.fave-text.active {
+  /* font-size: 30rpx;
+  line-height: 35rpx; */
+  color: #ff9c16;
+}

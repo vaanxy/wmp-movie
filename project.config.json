@@ -6,5 +6,38 @@
 	},
 	"appid": "wx4bf6a840251af6c5",
 	"projectname": "wmp-movie",
-	"condition": {}
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": -1,
+					"name": "movie-detail",
+					"pathName": "pages/movie-detail/movie-detail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "comment-list",
+					"pathName": "pages/comment-list/comment-list",
+					"query": ""
+				}
+			]
+		}
+	}
 }

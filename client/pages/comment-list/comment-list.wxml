@@ -1,2 +1,32 @@
 <!--pages/comment-list/comment-list.wxml-->
-<text>pages/comment-list/comment-list.wxml</text>
+<view class="comment-list">
+  <view class="comment-wrapper" wx:for="{{commentList}}" wx:key="id" wx:for-item="comment">
+    <image class="avator" src="{{comment.avator}}"></image>
+    <view class="comment-info">
+      <view class="user">{{comment.user}}</view>
+      <view class="content">{{comment.content}}</view>
+      <view class="date">{{comment.date}}</view>
+    </view>
+
+    <view class="actions">
+      <!-- 点赞 -->
+      <view class="action-wrapper" bindtap="like" data-comment="{{comment}}">
+        <view class="like-icon">
+          <image class="like {{comment.like ? 'active' : ''}}" mode="aspectFill" src="../../images/like-animation.png"></image>
+        </view>
+        <view class="like-text {{comment.like ? 'active' : ''}}">{{comment.likeCount}}</view>
+      </view>
+      <!-- 收藏 -->
+      <view class="action-wrapper" bindtap="fave" data-comment="{{comment}}">
+        <view class="fave-icon">
+          <image class="fave {{comment.fave ? 'active' : ''}}" mode="aspectFill" src="../../images/fave-animation.png"></image>
+        </view>
+        <view class="fave-text {{comment.fave ? 'active' : ''}}">收藏</view>
+
+      </view>
+    </view>
+  </view>
+
+
+
+</view>

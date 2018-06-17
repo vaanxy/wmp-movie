@@ -1,1 +1,58 @@
 /* pages/home/home.wxss */
+
+swiper-item {
+  
+}
+
+.movie-image {
+  width: 100%;
+  border-radius: 32rpx;
+}
+
+.movie-info {
+  margin: 64rpx;
+}
+
+
+.recommend-wrapper {
+   position: relative;
+   text-align: center;
+}
+.recommend-wrapper.animate {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.close {
+  position: absolute;
+  top: 32rpx;
+  right: 32rpx;
+  width: 42rpx;
+  height: 42rpx;
+  font-size: 30rpx;
+  line-height: 42rpx;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  background-color: #aaa;
+  z-index: 1;
+  
+}
+
+
+.recommend-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  line-height: 32rpx;
+}
+
+.avator {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 16rpx;
+  border-radius: 50%;
+}

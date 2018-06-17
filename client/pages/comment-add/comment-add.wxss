@@ -1,1 +1,56 @@
 /* pages/comment-add/comment-add.wxss */
+#record {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  padding: 16rpx;
+  margin: 64rpx;
+  background-color: #eee;
+  border: 1rpx solid #aaa;
+  border-radius: 16rpx;
+}
+
+.record-indicator {
+  position: relative;
+  top: 200rpx; 
+  left: 200rpx; 
+  width: 350rpx;
+  height: 350rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 16rpx;
+}
+
+.record-indicator-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 8rpx 16rpx;
+  text-align: center;
+  /* width: 100%; */
+  color: white;
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.record-indicator-text.cancel {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+#record.recording {
+  background-color: #ccc;
+}
+
+.voice {
+  border: 1rpx solid green;
+  border-radius: 8rpx;
+  background-color: greenyellow;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  min-width: 100rpx;
+  max-width: 700rpx;
+  height: 60rpx;
+  margin: 32rpx;
+}

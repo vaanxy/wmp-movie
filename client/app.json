@@ -1,19 +1,48 @@
 {
   "pages":[
+    "pages/movie-list/movie-list",
     "pages/home/home",
     "pages/user/user",
-    "pages/movie-list/movie-list",
+    
     "pages/movie-detail/movie-detail",
     "pages/comment-list/comment-list",
     "pages/comment-detail/comment-detail",
     "pages/comment-add/comment-add",
     "pages/comment-preview/comment-preview"
   ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "精选",
+        "iconPath": "images/unstar.png",
+        "selectedIconPath": "images/star.png"
+      },
+      {
+        "pagePath": "pages/movie-list/movie-list",
+        "text": "搜电影",
+        "iconPath": "images/movie.png",
+        "selectedIconPath": "images/movie-sel.png"
+      },
+      {
+        "pagePath": "pages/movie-list/movie-list",
+        "text": "热门影评",
+        "iconPath": "images/hot.png",
+        "selectedIconPath": "images/hot-sel.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "个人中心",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user-sel.png"
+      }
+    ]
+  },
   "window":{
     "backgroundColor":"#F6F6F6",
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarBackgroundColor": "#120d00",
     "navigationBarTitleText": "看看侃侃电影",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"white"
   }
 }

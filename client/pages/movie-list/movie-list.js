@@ -1,18 +1,47 @@
 // pages/movie-list/movie-list.js
+const qcloud = require('../../vendor/wafer2-client-sdk/index')
+const config = require('../../config')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-  
+    movieList: [],
+    filteredMovieList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    this.getMovieList()
+  },
+  searchMovie(event) {
+    console.log(event)
+    const { value, curor } = event.detail;
+    console.log(value)
+    const filteredMovieList = this.data.movieList.filter(movie => movie.title.toLowerCase().indexOf(value) >= 0);
+    this.setData({
+      filteredMovieList
+    })
+  },
+
+  getMovieList() {
+    qcloud.request({
+      'url': config.service.movieList,
+      success: res => {
+        if (!res.data.code) {
+          const movieList = res.data.data
+          const filteredMovieList = [...movieList]
+          this.setData({
+            movieList,
+            filteredMovieList
+          })
+        }
+        console.log(res)
+      }
+    })
   },
 
   /**

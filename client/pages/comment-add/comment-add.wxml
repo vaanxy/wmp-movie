@@ -1,2 +1,11 @@
 <!--pages/comment-add/comment-add.wxml-->
-<text>pages/comment-add/comment-add.wxml</text>
+<view>
+  <view class="voice" wx:for="{{voiceList}}" style="width: {{item.width * 700}}rpx" bindtap="play" data-voice="{{item}}">{{item.duration}}</view>
+</view>
+<view id="record" class="{{isRecording ? 'recording' : ''}}" bindtouchstart="touchStart" bindtouchcancel="touchCancel" bindtouchend="touchEnd" bindtouchmove="touchMove">{{isRecording ? '松开 结束' : '按住 说话'}}</view>
+<view class="record-indicator" wx:if="{{isRecording}}">
+
+  <view class="record-indicator-text {{isCancelRecording ? 'cancel' : ''}}">
+    {{isCancelRecording ? '手指松开 取消发送' : '手指上划 取消发送'}}
+  </view>
+</view>
