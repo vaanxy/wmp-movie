@@ -1,4 +1,8 @@
 /* pages/comment-list/comment-list.wxss */
+
+.comment-list {
+  margin-bottom: 100rpx;
+}
 .comment-wrapper {
   position: relative;
   display: flex;

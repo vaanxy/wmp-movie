@@ -1,16 +1,26 @@
 <!--pages/comment-list/comment-list.wxml-->
 <view class="comment-list">
   <view class="comment-wrapper" wx:for="{{commentList}}" wx:key="id" wx:for-item="comment">
-    <image class="avator" src="{{comment.avator}}"></image>
+    <image class="avator" src="{{comment.avatar}}"></image>
     <view class="comment-info">
-      <view class="user">{{comment.user}}</view>
-      <view class="content">{{comment.content}}</view>
-      <view class="date">{{comment.date}}</view>
+      <view class="user">{{comment.username}}</view>
+      <view class="content">
+        <view class="text-content" wx:if="{{comment.commentType === 0}}">{{comment.content}}</view>
+      
+        <view class="voice-content" wx:if="{{comment.commentType === 1}}">
+          <view class="voice" style="width: {{comment.content.width}}rpx" bindtap="playOrStop" data-comment="{{comment}}">
+            <image class="voice-icon" src="../../images/{{isPlaying && currentPlayingCommentId === comment.id ? 'stop' : 'play'}}.png"></image>
+            <view class="voice-duration">{{comment.content.durationText}}</view>
+
+          </view>
+        </view>
+      </view>
+      <view class="date">{{comment.createTime}}</view>
     </view>
-    <view wx:if="{{!userInfo}}" class="actions">
+    <!-- <view wx:if="{{!userInfo}}" class="actions">
       <view class="login-tips">登陆后才可收藏和点赞</view>
-    </view>
-    <view wx:if="{{userInfo}}" class="actions">
+    </view> -->
+    <view class="actions">
       <!-- 点赞 -->
       <view class="action-wrapper" bindtap="like" data-comment="{{comment}}">
         <view class="like-icon">
@@ -33,6 +43,6 @@
 
 </view>
 
-<button wx:if="{{!userInfo}}" class="wx-green"  open-type="getUserInfo" bindgetuserinfo="onTapLogin">
+<button wx:if="{{!userInfo}}" class="wx-login wx-green"  open-type="getUserInfo" bindgetuserinfo="onTapLogin">
   微信登录
 </button>

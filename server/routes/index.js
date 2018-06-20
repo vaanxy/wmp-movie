@@ -35,4 +35,10 @@ router.post('/message', controllers.message.post)
 router.get('/movie', controllers.movie.list)
 router.get('/movie/:id', controllers.movie.detail)
 
+router.get('/comment', controllers.comment.list)
+
+router.get('/comment/:id', controllers.comment.detail)
+
+router.post('/comment', validationMiddleware, controllers.comment.add)
+
 module.exports = router

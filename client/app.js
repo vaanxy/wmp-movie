@@ -91,8 +91,8 @@ App({
 
               success && success(userInfo)
             },
-            fail: () => {
-              error && error()
+            fail: (err) => {
+              error && error(err)
             }
           })
         },

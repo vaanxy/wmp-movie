@@ -85,7 +85,7 @@ Page({
     if (!this.data.movie) return;
     const movieId = this.data.movie.id;
     wx.navigateTo({
-      url: '/pages/comment-list/comment-list?id=' + movieId,
+      url: '/pages/comment-list/comment-list?movieId=' + movieId,
     });
   },
 

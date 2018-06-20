@@ -28,6 +28,14 @@ var config = {
         movieDetail: `${host}/weapp/movie/`,
 
         user: `${host}/weapp/user`,
+
+        commentList: `${host}/weapp/comment?movieId=`,
+        
+        commentDetail: `${host}/weapp/comment/`,
+
+        commentAdd: `${host}/weapp/comment`,
+
+
     }
 };
 

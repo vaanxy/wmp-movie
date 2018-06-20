@@ -1,6 +1,10 @@
 // pages/comment-preview/comment-preview.js
+const qcloud = require('../../vendor/wafer2-client-sdk/index')
+const config = require('../../config')
+
 const app = getApp();
 let innerAudioContext;
+
 Page({
 
   /**
@@ -9,7 +13,8 @@ Page({
   data: {
     userInfo: null,
     content: null,
-    movie: null
+    movie: null,
+    isPlaying: false,
   },
 
   /**
@@ -37,6 +42,8 @@ Page({
     })
   },
 
+
+
   /**
  * 初始化音频播放控件
  */
@@ -52,6 +59,9 @@ Page({
       innerAudioContext.onError((res) => {
         console.log(res.errMsg)
         console.log(res.errCode)
+        this.setData({
+          isPlaying: false
+        })
       });
 
       innerAudioContext.onStop(() => {
@@ -108,16 +118,79 @@ Page({
     wx.navigateBack();
   },
 
+  uploadVoice(cb) {
+    if (this.data.commentType === 1) {
+      wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: this.data.content.tempFilePath,
+        name: 'file',
+        success: res => {
+          let data = JSON.parse(res.data)
+          console.log(data)
+
+          if (!data.code) {
+            const voice = {
+              duration: this.data.content.duration,
+              durationText: this.data.content.durationText,
+              width: this.data.content.width,
+              src: data.data.imgUrl
+            }
+            const content = JSON.stringify(voice);
+            cb && cb(content);
+          } else {
+            wx.showToast({
+              title: '发布失败',
+            });
+          }
+        },
+        fail: (err) => {
+          console.log(err)
+          wx.showToast({
+            title: '发布失败',
+          });
+        }
+      })
+    } else {
+      cb && cb(this.data.content);
+    }
+  },
+
   publish() {
+    wx.showLoading({
+      title: '正在发布...',
+    });
+    this.uploadVoice((content) => {
+      qcloud.request({
+        url: config.service.commentAdd,
+        isLogin: true,
+        method: 'POST',
+        data: {
+          movieId: this.data.movie.id,
+          content: content,
+          rating: 5,
+          commentType: this.data.commentType
+        },
+        success: (res) => {
+          console.log(res);
+          wx.showToast({
+            title: '发布成功',
+          });
+        },
+        fail: (err) => {
+          console.log(err);
+          wx.showToast({
+            title: '发布失败',
+          });
+        },
+        complete: () => {
+          wx.hideLoading();
+        }
+      });
+    });
     // 此处使用redirectTo是为了防止用户点击返回，又返回了预览页面
-    let pages = getCurrentPages();
-    console.log(pages);
-    wx,wx.redirectTo({
-      url: '/pages/comment-list/comment-list',
-      // success: function(res) {},
-      // fail: function(res) {},
-      // complete: function(res) {},
-    })
+    // wx,wx.redirectTo({
+    //   url: '/pages/comment-list/comment-list',
+    // })
   },
 
 

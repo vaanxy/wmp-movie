@@ -34,7 +34,8 @@ const CONF = {
         // Bucket 名称
         fileBucket: 'wmp-movie',
         // 文件夹
-        uploadFolder: ''
+        uploadFolder: 'voices',
+        mimetypes: ['audio/x-aac', 'audio/mpeg', 'video/webm', 'audio/mpeg', 'audio/mp3', 'audio/m4a']
     },
 
     // 微信登录态有效期

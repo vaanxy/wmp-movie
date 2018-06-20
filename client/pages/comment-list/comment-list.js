@@ -1,5 +1,10 @@
 // pages/comment-list/comment-list.js
+const qcloud = require('../../vendor/wafer2-client-sdk/index')
+const config = require('../../config')
+
 const app = getApp();
+
+let innerAudioContext;
 Page({
 
   /**
@@ -7,78 +12,137 @@ Page({
    */
   data: {
     userInfo: null,
-    commentList: [
-      {
-        id: 1,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: true,
-        likeCount: 10,
-        fave: true
-      },
-      {
-        id: 2,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: true,
-        likeCount: 10,
-        fave: true
-      },
-      {
-        id: 3,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: false,
-        likeCount: 2220,
-        fave: true
-      },
-      {
-        id: 4,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: false,
-        likeCount: 0,
-        fave: true
-      },
-      {
-        id: 5,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: false,
-        likeCount: 0,
-        fave: true
-      },
-      {
-        id: 6,
-        user: 'vaan',
-        avator: '../../images/user-unlogin.png',
-        content: '赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞赞',
-        commentType: 'text',
-        date: '2018-6-16 10:32',
-        like: false,
-        likeCount: 0,
-        fave: true
-      }
-    ],
+    movieId: 0,
+    isPlaying: false,
+    currentPlayingCommentId: null,
+    commentList: [],
   },
 
+  /**
+   * 根据movieId获取该id的所有影评信息
+   */
+  getCommentList(movieId) {
+    qcloud.request({
+      url: config.service.commentList + movieId,
+      success: (res) => {
+        console.log(res)
+        if (!res.data.code) {
+          const commentList = res.data.data.map((comment) => {
+            let data = {};
+            let date = new Date(comment.createTime);
+            data.createTime = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
+            if (comment.commentType === 1) {
+              data.content = JSON.parse(comment.content);
+            }
+            return Object.assign({}, comment, data);
+          });
+          this.setData({
+            commentList
+          });
+        }
+      },
+      fail: (err) => {
+        console.log(err);
+        wx.showToast({
+          image: '../../images/error.png',
+          title: '获取评论失败',
+        })
+      }
+    })
+  },
+
+  /**
+   * 初始化音频播放控件
+   */
+  initInnerAudioContext() {
+    if (!innerAudioContext) {
+      innerAudioContext = wx.createInnerAudioContext();
+      innerAudioContext.autoplay = false
+      innerAudioContext.onPlay(() => {
+        this.setData({
+          isPlaying: true
+        })
+      })
+      innerAudioContext.onError((res) => {
+        console.log(res.errMsg);
+        console.log(res.errCode);
+        this.setData({
+          isPlaying: false,
+          currentPlayingCommentId: null
+        });
+      });
+
+      innerAudioContext.onStop(() => {
+        this.setData({
+          isPlaying: false,
+          currentPlayingCommentId: null
+        })
+      });
+
+      innerAudioContext.onEnded(() => {
+        this.setData({
+          isPlaying: false,
+          currentPlayingCommentId: null
+        })
+      });
+    }
+  },
+  /**
+   * 播放音频
+   */
+  play(src) {
+    if (innerAudioContext) {
+      innerAudioContext.src = src;
+      innerAudioContext.play();
+    }
+
+  },
+
+  /**
+   * 停止播放音频
+   */
+  stop() {
+    if (innerAudioContext) {
+      innerAudioContext.stop();
+    }
+  },
+
+  /**
+   * 如果当前正在播放音频则停止，反之则播放
+   */
+  playOrStop(event) {
+
+    const src = event.currentTarget.dataset.comment.content.src;
+    const commentId = event.currentTarget.dataset.comment.id;
+    this.initInnerAudioContext();
+    if (commentId !== this.data.currentPlayingCommentId) {
+      this.play(src);
+    } else {
+      if (this.data.isPlaying) {
+        this.stop();
+      } else {
+        this.play(src);
+      }
+    }
+    this.setData({
+      currentPlayingCommentId: commentId
+    });
+    
+
+  },
+
+  /**
+   * 点赞表示喜欢
+   */
   like(event) {
     // console.log(event)
+    if (!this.data.userInfo) {
+      wx.showToast({
+        image: '../../images/warning.png',
+        title: '登录后才能点赞',
+      })
+      return;
+    }
     const comment = event.currentTarget.dataset.comment;
     const isLike = comment.like;
     let commentList = [...this.data.commentList]
@@ -98,7 +162,17 @@ Page({
     });
   },
 
+  /**
+   * 收藏表示以后可能会再次阅读
+   */
   fave(event) {
+    if (!this.data.userInfo) {
+      wx.showToast({
+        image: '../../images/warning.png',
+        title: '登录后才能收藏',
+      })
+      return;
+    }
     const comment = event.currentTarget.dataset.comment;
     const isFave = comment.fave;
     let commentList = [...this.data.commentList]
@@ -119,7 +193,6 @@ Page({
     });
     app.login({
       success: (userInfo) => {
-        console.log('siccess');
         wx.hideLoading()
         wx.showToast({
           title: '登陆成功',
@@ -131,6 +204,7 @@ Page({
       error: (err) => {
         wx.hideLoading()
         wx.showToast({
+          image: '../../images/error.png',
           title: '登陆失败',
         })
         console.log(err);
@@ -141,7 +215,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  
+    const movieId = +options.movieId;
+    this.setData({
+      movieId
+    })
+    this.getCommentList(movieId);
   },
 
   /**
