@@ -77,7 +77,7 @@ Page({
    */
   toAddComment(commentType) {
     wx.navigateTo({
-      url: '/pages/comment-add/comment-add?type=' + commentType,
+      url: `/pages/comment-add/comment-add?commentType=${commentType}&movieId=${this.data.movie.id}&movieImage=${this.data.movie.image}&movieTitle=${this.data.movie.title}`,
     });
   },
 

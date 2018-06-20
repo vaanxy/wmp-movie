@@ -1,7 +1,134 @@
 /**app.wxss**/
-.container {
+page {
+  background-color: #eee;
+}
+
+.wx-green {
+  background-color: #1cb977;
+}
+
+.movie-wrapper {
+  position: relative; 
+  margin: 128rpx 32rpx 64rpx;
+  background: white; 
+  padding: 32rpx 64rpx;
+}
+
+.movie-wrapper .movie-info {
+  margin-top: -100rpx;
+  text-align: center;
+}
+
+.movie-wrapper .movie-image {
+  width: 200rpx;
+  height: 300rpx;
+  border: 1px solid black;
+  margin: 0 auto;  
+
+}
+
+.movie-wrapper .movie-title {
+  text-align: center;
+  font-size: 40rpx;
+  line-height: 56rpx;
+}
+
+.action-buttons {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+}
+.action-buttons button {
+  display: flex;
   align-items: center;
-  box-sizing: border-box;
-} 
+  justify-content: center;
+  font-size: 30rpx;
+  line-height: 48rpx;
+  padding: 16rpx;
+  width: 250rpx;
+  color: #637782;
+}
+.btn-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 16rpx;
+}
+
+
+/* 未登录时的登陆框的样式 */
+.unlogin-card {
+  display: flex;
+  align-items: center;
+  margin: 50rpx 27rpx 0;
+  height: 200rpx;
+  background: #FFFFFF;
+  box-shadow: 0 2rpx 13rpx 5rpx rgba(0, 0, 0, 0.02);
+  border-radius: 13rpx;
+}
+
+.unlogin-head {
+  flex-shrink: 0;
+  margin-left: 53rpx;
+  height: 100rpx;
+  width: 100rpx;
+  background: #EEE;
+  border-radius: 50%;
+}
+
+.unlogin-info {
+  flex: 1;
+  margin-left: 31rpx;
+}
+
+.unlogin-text {
+  line-height: 48rpx;
+  font-size: 34rpx;
+  color: rgba(29, 29, 38, 0.8);
+  font-weight: bold;
+}
+
+.unlogin-tips {
+  margin-top: 6rpx;
+  line-height: 33rpx;
+  font-size: 24rpx;
+  color: #8B8B8B;
+}
+
+.unlogin-btn {
+  margin: 34rpx auto 0;
+  width: 250rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #1cb977;
+  border-radius: 10rpx;
+  font-size: 30rpx;
+  text-align: center;
+  color: #34373D;
+  font-weight: bold;
+}
+
+/* 音频播放条的样式 */
+.voice {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 32rpx;
+  border: 1rpx solid darkgray;
+  border-radius: 8rpx;
+  background-color: lightgray;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  min-width: 100rpx;
+  max-width: 700rpx;
+  height: 60rpx;
+  margin: 32rpx;
+}
+
+.voice:hover {
+  background-color: darkgray;
+}
+
+.voice-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}

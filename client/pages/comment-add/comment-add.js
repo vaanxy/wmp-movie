@@ -1,12 +1,31 @@
 // pages/comment-add/comment-add.js
-const recorderManager = wx.getRecorderManager()
+
+const app = getApp();
+const MAX_RECORD_TIME = 60000 // 最大录音时长(ms)
+const MAX_RECORD_WIDTH = 500 // 录音条最大宽度(rpx)
+const RECORD_OPTIONS = {
+  duration: MAX_RECORD_TIME,
+  sampleRate: 44100,
+  numberOfChannels: 1,
+  encodeBitRate: 192000,
+  format: 'aac',
+  frameSize: 50
+}
+let innerAudioContext;
+let recorderManager;
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    voiceList: [],
+    containerHeight: 0,
+    userInfo: null,
+    commentType: 1, // 0: 文字; 1: 语音;
+    movie: null,
+    voice: null,
+    text: '',
+    textMaxLength: 255,
     recordBoundingRect: {},
     isRecording: false,
     isCancelRecording: false,
@@ -16,108 +35,165 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.createSelectorQuery().in(this).select('#record').boundingClientRect((res) => {
-      console.log(res)
-      this.setData({
-        recordBoundingRect: {
-          top: res.top,
-          left: res.left,
-          right: res.right,
-          bottom: res.bottom
+  onLoad: function(options) {
+    let commentType = +options.commentType;
+    // commentType = 0;
+    const movie = {
+      id: +options.movieId,
+      title: options.movieTitle,
+      image: options.movieImage,
+    };
+
+    this.setData({
+      movie,
+      commentType
+    });
+
+    // 动态调整container的高度
+    app.getWindowHeight({
+      success: (windowHeight) => {
+        this.setData({
+          containerHeight: windowHeight - 320
+        })
+      }
+    })
+
+  },
+
+  onInput(event) {
+    // console.log(event);
+    const text = event.detail.value;
+    this.setData({
+      text
+    });
+  },
+
+  /**
+   * 初始化录音器
+   */
+  initRecordManager() {
+    if (this.data.commentType === 1) {
+      wx.createSelectorQuery().in(this).select('#record').boundingClientRect((res) => {
+        console.log(res)
+        this.setData({
+          recordBoundingRect: {
+            top: res.top,
+            left: res.left,
+            right: res.right,
+            bottom: res.bottom
+          }
+        })
+      }).exec();
+      recorderManager = wx.getRecorderManager();
+      recorderManager.onStart(() => {
+        wx.vibrateShort()
+        // 先停止当前正在播放的音频
+        this.stop();
+        this.setData({
+          isRecording: true,
+        });
+      })
+      recorderManager.onPause(() => {
+        // console.log('recorder pause')
+      })
+      recorderManager.onStop((res) => {
+        this.setData({
+          isRecording: false,
+        });
+        if (!this.data.isCancelRecording) {
+          this.addVoice(res)
         }
       })
-    }).exec();
-    recorderManager.onStart(() => {
-      console.log('recorder start')
-      wx.vibrateShort()
-    })
-    recorderManager.onPause(() => {
-      console.log('recorder pause')
-    })
-    recorderManager.onStop((res) => {
-      console.log('recorder stop', res)
-      if (this.data.isCancelRecording) {
-
-      } else {
-        this.addVoice(res)
-      }
-      
-    })
-    // recorderManager.onFrameRecorded((res) => {
-    //   const { frameBuffer } = res
-    //   console.log('frameBuffer', frameBuffer)
-    //   const buffer = new Uint8Array(frameBuffer)
-    //   // const hex = Array.prototype.map.call(new Uint8Array(frameBuffer), x => ('00' + x.toString(16)).slice(-2)).join('');
-    //   // console.log(a[0])
-    //   console.log(buffer)
-    //   let voice = 0;
-    //   for (let i = 0; i < buffer.length; i++) {
-    //     voice += buffer[i] * buffer[i];
-    //   }
-    // // 平方和除以数据总长度，得到音量大小。
-    //   let mean = voice / buffer.length;
-    //   let volume = 10 * Math.log10(mean);
-    //   console.log("分贝值:" + volume);
-    // })
+    }
   },
 
-  play(event) {
-    if (this.data.isPlaying) return
-    const src = event.currentTarget.dataset.voice.tempFilePath
-    const innerAudioContext = wx.createInnerAudioContext()
-    innerAudioContext.autoplay = false
-    innerAudioContext.src = src
-    innerAudioContext.onPlay(() => {
-      console.log('开始播放')
-      this.setData({
-        isPlaying: true
+  /**
+   * 初始化音频播放控件
+   */
+  initInnerAudioContext() {
+    if (!innerAudioContext) {
+      innerAudioContext = wx.createInnerAudioContext();
+      innerAudioContext.autoplay = false
+      innerAudioContext.onPlay(() => {
+        this.setData({
+          isPlaying: true
+        })
       })
-    })
-    innerAudioContext.onError((res) => {
-      console.log(res.errMsg)
-      console.log(res.errCode)
-    })
-    innerAudioContext.play()
-    innerAudioContext.onStop(() => {
-      this.setData({
-        isPlaying: false
-      })
-    })
+      innerAudioContext.onError((res) => {
+        console.log(res.errMsg)
+        console.log(res.errCode)
+      });
 
-    innerAudioContext.onEnded(() => {
-      this.setData({
-        isPlaying: false
-      })
-    })
+      innerAudioContext.onStop(() => {
+        this.setData({
+          isPlaying: false
+        })
+      });
+
+      innerAudioContext.onEnded(() => {
+        this.setData({
+          isPlaying: false
+        })
+      });
+    }
   },
+
+  /**
+   * 播放音频
+   */
+  play(src) {
+    if (innerAudioContext) {
+      innerAudioContext.src = src;
+      innerAudioContext.play();
+    }
+
+  },
+
+  /**
+   * 停止播放音频
+   */
+  stop() {
+    if (innerAudioContext) {
+      innerAudioContext.stop();
+    }
+  },
+
+  /**
+   * 如果当前正在播放音频则停止，反之则播放
+   */
+  playOrStop(event) {
+    const src = event.currentTarget.dataset.voice.tempFilePath;
+    this.initInnerAudioContext();
+    if (this.data.isPlaying) {
+      this.stop();
+    } else {
+      this.play(src);
+    }
+  },
+
+
 
   addVoice(record) {
-    record.width = Math.sqrt(1 - ((record.duration / 60000) - 1) * ((record.duration / 60000) - 1))
+    // 计算录音条的长度，长度和时间的关系是圆的左上1/4弧的曲线
+    record.width = Math.sqrt(1 - ((record.duration / MAX_RECORD_TIME) - 1) * ((record.duration / MAX_RECORD_TIME) - 1)) * MAX_RECORD_WIDTH;
+    record.durationText = (record.duration / 1000).toFixed(0) + 's';
     this.setData({
-      voiceList: [...this.data.voiceList, record]
-    })
+      voice: record
+    });
   },
 
   touchStart(event) {
-    // wx.vibrateLong()
-    console.log('start recording')
-    const point = event.changedTouches[0]
     this.setData({
-      isRecording: true,
+      voice: null
+    });
+    // console.log('start recording');
+    const point = event.changedTouches[0];
+    this.setData({
       isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
-    })
-    const options = {
-      duration: 600000,
-      sampleRate: 44100,
-      numberOfChannels: 1,
-      encodeBitRate: 192000,
-      format: 'aac',
-      frameSize: 50
-    }
+    });
 
-    recorderManager.start(options)
-    
+    recorderManager.start(RECORD_OPTIONS)
+
   },
 
   touchCancel(event) {
@@ -136,7 +212,7 @@ Page({
       isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
     })
     recorderManager.stop()
-    
+
   },
   touchMove(event) {
     // console.log('move')
@@ -146,57 +222,96 @@ Page({
     })
   },
 
+  /**
+   * 判断当前手指触摸位置是否在录音按钮内部
+   */
   isInBoundingRect(x, y) {
     let rect = this.data.recordBoundingRect;
     return (y >= rect.top && y <= rect.bottom && x >= rect.left && x <= rect.right)
   },
 
+  preview() {
+    let content = this.data.commentType ? JSON.stringify(this.data.voice) : this.data.text;
+    wx.setStorage({
+      key: 'comment-content',
+      data: content,
+      success: () => {
+        wx.navigateTo({
+          url: `/pages/comment-preview/comment-preview?commentType=${this.data.commentType}&movieId=${this.data.movie.id}&movieImage=${this.data.movie.image}&movieTitle=${this.data.movie.title}`,
+        });
+      },
+
+    })
+  },
+
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 点击登录
    */
-  onReady: function () {
-  
+  onTapLogin() {
+    wx.showLoading({
+      title: '登陆中',
+      mask: true
+    });
+    app.login({
+      success: (userInfo) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '登陆成功',
+        })
+        this.onLoginSuccess(userInfo);
+
+      },
+      error: (err) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '登陆失败',
+        })
+        console.log(err);
+      }
+    })
+  },
+
+  /**
+   * 登陆成功后设置userInfo, 并初始化录音管理器
+   */
+  onLoginSuccess(userInfo) {
+    this.setData({
+        userInfo
+      },
+      () => {
+        this.initRecordManager();
+      });
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function() {
+    app.checkSession({
+      success: (userInfo) => {
+        this.onLoginSuccess(userInfo);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-  
+  onHide: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-  
+  onUnload: function() {
+    if (innerAudioContext) {
+      innerAudioContext.destroy();
+      console.log(innerAudioContext);
+    }
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

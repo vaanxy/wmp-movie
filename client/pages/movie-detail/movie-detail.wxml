@@ -1,7 +1,7 @@
 <!--pages/movie-detail/movie-detail.wxml-->
 <view class="movie-wrapper">
   <view class="movie-info">
-    <image class="movie-image" src="{{movie.image}}"></image>
+    <image class="movie-image" mode="aspectFill"  src="{{movie.image}}"></image>
     <view class="movie-title">{{movie.title}}</view>
     <view class="movie-description">{{movie.description}}</view>
   </view>

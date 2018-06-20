@@ -1,2 +1,61 @@
 <!--pages/comment-preview/comment-preview.wxml-->
-<text>pages/comment-preview/comment-preview.wxml</text>
+<!--pages/comment-add/comment-add.wxml-->
+<view wx:if="{{!userInfo}}">
+  <view class="unlogin-card">
+    <view class="unlogin-head"></view>
+    <view class="unlogin-info">
+      <view class="unlogin-text">未登录</view>
+      <view class="unlogin-tips">点击微信登录后才可预览影评</view>
+    </view>
+  </view>
+  <button class="unlogin-btn" open-type="getUserInfo" bindgetuserinfo="onTapLogin">微信登录</button>
+</view>
+<view wx:if="{{userInfo}}">
+  <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
+    <!-- 影片信息 -->
+    <view class="movie-info">
+      <image class="movie-image" mode="aspectFill" src="{{movie.image}}"></image>
+      <view class="movie-title">{{movie.title}}</view>
+    </view>
+    <!-- 评论区域 -->
+    <view class="comment-info">
+      <!-- 用户信息 -->
+      <view class="comment-user">
+        <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        <view>{{userInfo.nickName}}的影评</view>
+      </view>
+      <!-- 评论内容 -->
+      <view class="comment-content">
+        <view class="quote">“</view>
+        <!-- 文字评论 -->
+        <block wx:if="{{commentType === 0}}">
+          <view class="text-content">{{content}}</view>
+        </block>
+        <!-- 语音评论 -->
+        <block wx:if="{{commentType === 1}}">
+
+          <view class="voice" wx:if="{{content}}" style="width: {{content.width}}rpx" bindtap="playOrStop" data-voice="{{content}}">
+            <image class="voice-icon" src="../../images/{{isPlaying ? 'stop' : 'play'}}.png"></image>
+            <view class="voice-duration">{{content.durationText}}</view>
+
+          </view>
+        </block>
+      </view>
+
+
+      <!-- 重新影评 & 发布影评 -->
+      <view class="action-buttons">
+        <button class="view-comments" bindtap="backToEdit">
+          <image class="btn-icon" src="../../images/movie.png"></image>
+          <view class="btn-text">重新影评</view>
+        </button>
+        <button class="add-comment" bindtap="publish">
+          <image class="btn-icon" src="../../images/movie.png"></image>
+          <view class="btn-text">发布影评</view>
+        </button>
+      </view>
+    </view>
+
+
+  </view>
+</view>

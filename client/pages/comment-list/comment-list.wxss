@@ -3,6 +3,7 @@
   position: relative;
   display: flex;
   border-bottom: 1px solid #d0d3d3;
+  background: white;
 }
 
 .comment-wrapper .avator {
@@ -42,6 +43,13 @@
   width: 240rpx;
 }
 
+.login-tips {
+  font-size: 20rpx;
+  line-height: 28rpx;
+  padding: 20rpx;
+  color: grey;
+}
+
 .action-wrapper {
   display: flex;
   justify-content: center;
@@ -51,7 +59,7 @@
 .like-icon {
   width: 50px;
   height: 50px;
-  overflow-x: hidden;
+  overflow: hidden;
 
 }
 
@@ -80,7 +88,7 @@
 .fave-icon {
   width: 35px;
   height: 30px;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .fave {
@@ -102,3 +110,12 @@
   line-height: 35rpx; */
   color: #ff9c16;
 }
+
+.wx-login {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+

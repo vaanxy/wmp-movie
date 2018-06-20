@@ -26,6 +26,8 @@ var config = {
         movieList: `${host}/weapp/movie`,
 
         movieDetail: `${host}/weapp/movie/`,
+
+        user: `${host}/weapp/user`,
     }
 };
 

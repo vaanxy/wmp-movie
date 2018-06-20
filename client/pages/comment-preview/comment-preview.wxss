@@ -1,1 +1,35 @@
 /* pages/comment-preview/comment-preview.wxss */
+
+.comment-user {
+  display: flex;
+  align-items: center;
+  color: #637782;
+}
+
+.comment-user .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.comment-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx;
+  margin: 16rpx 0;
+}
+
+.comment-content .quote {
+  min-width: 100rpx;
+  font-size: 80rpx;
+  text-align: center;
+}
+
+.text-content {
+  word-wrap: break-word;
+  flex: 1 1 auto;
+  font-size: 30rpx;
+  line-height: 42rpx;
+
+}

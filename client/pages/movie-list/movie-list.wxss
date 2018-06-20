@@ -1,8 +1,4 @@
 /* pages/movie-list/movie-list.wxss */
-page {
-  background-color: #EEE;
-
-}
 .search-box {
   display: flex;
   height: 48rpx;
