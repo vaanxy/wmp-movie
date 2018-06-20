@@ -16,6 +16,8 @@ Page({
     isPlaying: false,
     currentPlayingCommentId: null,
     commentList: [],
+    isLikeList: [],
+    isFaveList: []
   },
 
   /**
@@ -95,7 +97,6 @@ Page({
       innerAudioContext.src = src;
       innerAudioContext.play();
     }
-
   },
 
   /**
@@ -130,11 +131,55 @@ Page({
     
 
   },
+  setFaveList(movieId) {
+    qcloud.request({
+      url: config.service.faveList + movieId,
+      login: true,
+      success: (res) => {
+        if (!res.data.code) {
+          const faveList = res.data.data.map(d => d.commentId);
+          let isFaveList = []
+          this.data.commentList.forEach((comment) => {
+            isFaveList[comment.id] = faveList.indexOf(comment.id) >= 0
+          });
+          this.setData({
+            isFaveList
+          })
+        }
+      },
+      fail: (err) => {
+        console.log(err);
+      }
 
+    });
+  },
+  setLikeList(movieId) {
+    qcloud.request({
+      url: config.service.likeList + movieId,
+      login: true,
+      success: (res) => {
+        console.log(res.data)
+        if (!res.data.code) {
+          const likeList = res.data.data.map(d => d.commentId);
+          let isLikeList = []
+          this.data.commentList.forEach((comment) => {
+            isLikeList[comment.id] = likeList.indexOf(comment.id) >= 0
+          });
+          this.setData({
+            isLikeList
+          })
+        }
+      },
+      fail: (err) => {
+        console.log(err);
+      }
+
+    });
+  },
   /**
    * 点赞表示喜欢
    */
-  like(event) {
+  toggleLike(event) {
     // console.log(event)
     if (!this.data.userInfo) {
       wx.showToast({
@@ -144,28 +189,42 @@ Page({
       return;
     }
     const comment = event.currentTarget.dataset.comment;
-    const isLike = comment.like;
-    let commentList = [...this.data.commentList]
-    commentList.forEach((c) => {
-      if (c.id === comment.id) {
-        c.like = !c.like;
-        if (c.like) {
-          c.likeCount += 1;
-        } else {
-          c.likeCount -= 1;
+    qcloud.request({
+      url: config.service.toggleLike,
+      method: 'PUT',
+      login: true,
+      data: {
+        movieId: this.data.movieId,
+        commentId: comment.id
+      },
+      success: (res) => {
+        if (!res.data.code) {
+          let isLikeList = [...this.data.isLikeList];
+          let commentList = [...this.data.commentList];
+          isLikeList[comment.id] = !isLikeList[comment.id];
+          let isLike = isLikeList[comment.id]
+          commentList.forEach((c) => {
+            if (c.id === comment.id) {
+              if (isLike) {
+                c.likeCount += 1;
+              } else {
+                c.likeCount -= 1;
+              }
+            }
+          });
+          this.setData({ isLikeList, commentList  });
         }
-        
+      },
+      fail: (err) => {
+        console.log(err);
       }
-    });
-    this.setData({
-      commentList
     });
   },
 
   /**
    * 收藏表示以后可能会再次阅读
    */
-  fave(event) {
+  toggleFave(event) {
     if (!this.data.userInfo) {
       wx.showToast({
         image: '../../images/warning.png',
@@ -174,18 +233,33 @@ Page({
       return;
     }
     const comment = event.currentTarget.dataset.comment;
-    const isFave = comment.fave;
-    let commentList = [...this.data.commentList]
-    commentList.forEach((c) => {
-      if (c.id === comment.id) {
-        c.fave = !c.fave;
+    qcloud.request({
+      url: config.service.toggleFave,
+      method: 'PUT',
+      login: true,
+      data: {
+        movieId: this.data.movieId,
+        commentId: comment.id
+      },
+      success: (res) => {
+        if (!res.data.code) {
+          let isFaveList = [...this.data.isFaveList];
+          let commentList = [...this.data.commentList];
+          isFaveList[comment.id] = !isFaveList[comment.id];
+          let isFave = isFaveList[comment.id]
+          this.setData({ isFaveList });
+        }
+      },
+      fail: (err) => {
+        console.log(err);
       }
     });
-    this.setData({
-      commentList
-    });
+
   },
 
+  /**
+   * 用户点击登陆
+   */
   onTapLogin() {
     wx.showLoading({
       title: '登陆中',
@@ -197,9 +271,7 @@ Page({
         wx.showToast({
           title: '登陆成功',
         })
-        this.setData({
-          userInfo
-        })
+        this.onLoginSuccess(userInfo);
       },
       error: (err) => {
         wx.hideLoading()
@@ -211,6 +283,18 @@ Page({
       }
     })
   },
+
+  /**
+   * 登陆成功后获取用户点赞和收藏信息，并绑定显示
+   */
+  onLoginSuccess(userInfo) {
+    this.setLikeList(this.data.movieId);
+    this.setFaveList(this.data.movieId);
+    this.setData({
+      userInfo
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -228,9 +312,7 @@ Page({
   onShow: function () {
     app.checkSession({
       success: (userInfo) => {
-        this.setData({
-          userInfo
-        });
+        this.onLoginSuccess(userInfo);
       },
       error: (err) => {
         console.log(err)

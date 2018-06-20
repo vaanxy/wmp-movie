@@ -22,18 +22,18 @@
     </view> -->
     <view class="actions">
       <!-- 点赞 -->
-      <view class="action-wrapper" bindtap="like" data-comment="{{comment}}">
+      <view class="action-wrapper" bindtap="toggleLike" data-comment="{{comment}}">
         <view class="like-icon">
-          <image class="like {{comment.like ? 'active' : ''}}" mode="aspectFill" src="../../images/like-animation.png"></image>
+          <image class="like {{isLikeList[comment.id] ? 'active' : ''}}" mode="aspectFill" src="../../images/like-animation.png"></image>
         </view>
-        <view class="like-text {{comment.like ? 'active' : ''}}">{{comment.likeCount}}</view>
+        <view class="like-text {{isLikeList[comment.id] ? 'active' : ''}}">{{comment.likeCount}}</view>
       </view>
       <!-- 收藏 -->
-      <view class="action-wrapper" bindtap="fave" data-comment="{{comment}}">
+      <view class="action-wrapper" bindtap="toggleFave" data-comment="{{comment}}">
         <view class="fave-icon">
-          <image class="fave {{comment.fave ? 'active' : ''}}" mode="aspectFill" src="../../images/fave-animation.png"></image>
+          <image class="fave {{isFaveList[comment.id] ? 'active' : ''}}" mode="aspectFill" src="../../images/fave-animation.png"></image>
         </view>
-        <view class="fave-text {{comment.fave ? 'active' : ''}}">收藏</view>
+        <view class="fave-text {{isFaveList[comment.id] ? 'active' : ''}}">收藏</view>
 
       </view>
     </view>

@@ -5,10 +5,16 @@ module.exports = {
    * 获取指定movie id的所有评论
    */
   list: async ctx => {
+    // const $wxInfo = ctx.state.$wxInfo;
+    // const user = $wxInfo ? $wxInfo.userinfo.openId : ''
     const movieId = +ctx.request.query.movieId;
     let comments = []
     if (!isNaN(movieId)) {
-      comments = await DB.query('select id, movie_comment.movie_id as `movieId`, comment_type as `commentType`, avatar, content, rating, movie_comment.user, username, movie_comment.create_time as `createTime`, count(comment_like.user) as `likeCount` from movie_comment left join comment_like on movie_comment.id = comment_like.comment_id where movie_comment.movie_id = 1 group by movie_comment.id order by movie_comment.create_time desc', [movieId]);
+      comments = await DB.query(
+        'select id, movie_comment.movie_id as `movieId`, comment_type as `commentType`, avatar, content, rating, movie_comment.user, username, movie_comment.create_time as `createTime`, count(comment_like.user) as `likeCount` ' 
+        // + '(select count(*) from comment_like where comment_like.user=? and comment_like.comment_id=movie_comment.id) as `like`, '
+        // + '(select count(*) from comment_fave where comment_fave.user=? and comment_fave.comment_id=movie_comment.id) as `fave` '
+        + 'from movie_comment left join comment_like on movie_comment.id = comment_like.comment_id left join comment_fave on movie_comment.id = comment_fave.comment_id where movie_comment.movie_id = ? group by movie_comment.id order by movie_comment.create_time desc', [movieId]);
     }
     ctx.state.data = comments;
 
@@ -44,7 +50,5 @@ module.exports = {
     }
 
     ctx.state.data = {}
-  } 
-
-  
+  },
 }

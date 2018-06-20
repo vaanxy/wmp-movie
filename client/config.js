@@ -35,6 +35,14 @@ var config = {
 
         commentAdd: `${host}/weapp/comment`,
 
+        toggleLike: `${host}/weapp/like`,
+
+        likeList: `${host}/weapp/like?movieId=`,
+
+        toggleFave: `${host}/weapp/fave`,
+
+        faveList: `${host}/weapp/fave?movieId=`,
+
 
     }
 };

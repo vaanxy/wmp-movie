@@ -31,14 +31,23 @@ router.post('/tunnel', controllers.tunnel.post)
 router.get('/message', controllers.message.get)
 // POST 用来处理微信转发过来的客服消息
 router.post('/message', controllers.message.post)
-
+// GET 获取电影列表
 router.get('/movie', controllers.movie.list)
+// GET 获取电影详情
 router.get('/movie/:id', controllers.movie.detail)
-
+// GET 获取影评列表
 router.get('/comment', controllers.comment.list)
-
+// GET 获取影评详情
 router.get('/comment/:id', controllers.comment.detail)
-
+// POST 添加影评
 router.post('/comment', validationMiddleware, controllers.comment.add)
+// GET 获取用户是否点赞了指定movieId的下的相关评论
+router.get('/like', validationMiddleware, controllers.like.list)
+// PUT 点赞/取消点赞
+router.put('/like', validationMiddleware, controllers.like.toggleLike)
+// GET 获取用户是否收藏了指定movieId的下的相关评论
+router.get('/fave', validationMiddleware, controllers.fave.list)
+// PUT 收藏/取消收藏
+router.put('/fave', validationMiddleware, controllers.fave.toggleFave)
 
 module.exports = router
