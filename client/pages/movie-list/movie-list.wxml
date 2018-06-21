@@ -10,6 +10,11 @@
         <view class="movie-info">
           <view class="movie-title">{{movie.title}}</view>
           <view class="movie-category">类型: {{movie.category}}</view>
+          <view class="movie-rating">
+          <rating score="{{movie.avgRating}}" size="sm"></rating>
+          <view class="score">{{movie.avgRating}}</view>
+          </view>
+          
         </view>
       </navigator>
   </scroll-view>

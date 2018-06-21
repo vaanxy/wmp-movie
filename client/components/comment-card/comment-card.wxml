@@ -1,0 +1,17 @@
+<!--components/comment-card/comment-card.wxml-->
+<card image-src="{{imageSrc}}">
+    <view slot="card-content" class="comment-info">
+      <view class="title">gangtiexie</view>
+      <view class="content">
+        <view class="text-content">sdfffffffflkjflsdjfldskfjsldkfjdslkfjdslkfjsdlkfjsdlkfjsdkfjsdlfksjdflksdfjkdsfjlsdjl</view>
+        <view class="voice-content"></view>
+      </view>
+      <view class="user-info">
+        <image class="avatar"></image>
+        <view class="username">vaan</view>
+      </view>
+    </view>
+    <view slot="card-actions" class="card-actions">
+      <slot name="card-actions"></slot>
+    </view>
+</card>

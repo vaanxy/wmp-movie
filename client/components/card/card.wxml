@@ -1,0 +1,13 @@
+<!--components/card/card.wxml-->
+<view class="card-wrapper">
+  <image class="card-image" src="{{imageSrc}}"></image>
+  <view class="content-container">
+    <view class="card-content">
+      <slot name="card-content"></slot>
+    </view>
+    <view class="card-actions">
+      <slot name="card-actions"></slot>
+    </view>
+
+  </view>
+</view>

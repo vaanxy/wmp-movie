@@ -23,8 +23,8 @@
     </view>
           <!-- 评论区域 -->
       <view class="comment-info">
-       <view  class="comment-tips">请输入你的影评内容...</view>
-       <view>
+       <view class="comment-tips">请输入你的影评内容...</view>
+       <view class="comment-rating">
         <rating bind:rating="onRating"></rating>
        </view>
         <!-- 文字评论 -->

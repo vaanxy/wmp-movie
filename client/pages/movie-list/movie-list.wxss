@@ -78,6 +78,18 @@
   color: #555;
 }
 
+.movie-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25rpx;
+  margin-top: 25rpx;
+}
+
+.movie-rating .score {
+  margin-left: 16rpx;
+}
+
 image.bg {
   width: 100%;
   position: absolute;

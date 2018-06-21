@@ -1,32 +1,55 @@
 /* pages/movie-detail/movie-detail.wxss */
-/* .movie-wrapper {
-  position: relative; 
-  margin: 128rpx 32rpx 64rpx;
-  background: #eee;
-  padding: 32rpx 64rpx;
+
+.movie-rating {
+  margin: 32rpx; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.movie-info {
-  position: relative;
-  top: -100rpx;
-  left: 0;
-  right: 0;
-  text-align: center;
+.rating-info {
+  margin-right: 32rpx;
 }
 
-.movie-image {
-  width: 300rpx;
-  border: 1px solid black;
-  margin: 0 auto;  
+.rating-tips {
+  font-size: 30rpx;
+}
+
+.rating-score {
+  font-size: 50rpx;
+}
+
+.rating-count {
+  font-size: 25rpx;
+  line-height: 35rpx;
+  color: grey;
+}
+
+.rating-detail {
+  flex: 1 0 auto;
+  font-size: 20rpx;
+  line-height: 35rpx;
 
 }
 
-.movie-title {
-  text-align: center;
-  font-size: 40rpx;
-  line-height: 56rpx;
-} */
+.bar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
 
+.bar-tips {
+  width: 40rpx;
+  text-align: right;
+}
+
+.bar {
+  display: inline-block;
+  max-width: 150rpx;
+  height: 15rpx;
+  margin: 0 16rpx;
+  background: orange;
+}
 .movie-description {
   margin: 32rpx 0;
   font-size: 30rpx;
@@ -34,23 +57,3 @@
   text-align: start;
   color: #637782;
 }
-
-/* .action-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-.action-buttons button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30rpx;
-  line-height: 48rpx;
-  padding: 16rpx;
-  width: 250rpx;
-  color: #637782;
-}
-.btn-icon {
-  width: 50rpx;
-  height: 50rpx;
-  margin-right: 16rpx;
-} */

@@ -32,7 +32,12 @@ Page({
       'url': config.service.movieList,
       success: res => {
         if (!res.data.code) {
-          const movieList = res.data.data
+          let movieList = res.data.data
+          console.log(movieList);
+          movieList = movieList.map((movie) => {
+            return Object.assign({}, movie, {avgRating: movie.avgRating.toFixed(2)});
+          });
+          console.log(movieList);
           const filteredMovieList = [...movieList]
           this.setData({
             movieList,

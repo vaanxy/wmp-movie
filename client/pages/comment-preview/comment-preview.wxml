@@ -20,10 +20,10 @@
     <!-- 评论区域 -->
     <view class="comment-info">
       <!-- 用户信息 -->
-      
-      <view>
+      <view class="comment-rating">
         <rating score="{{rating}}" disabled="true"></rating>
       </view>
+
       <view class="comment-user">
         <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
         <view>{{userInfo.nickName}}的影评</view>

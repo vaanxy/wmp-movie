@@ -1,0 +1,27 @@
+/* components/card/card.wxss */
+.card-wrapper {
+  display: flex;
+  width: 650rpx;
+  height: 350rpx;
+  background: white;
+  border-radius: 16rpx;
+  box-shadow: 0 10rpx 40rpx 0 rgba(0,0,0,.19); 
+  margin: 0 auto;
+}
+
+.content-container {
+  position: relative;
+  width: 400rpx;
+}
+
+.card-image {
+  width: 250rpx;
+  height: 350rpx;
+}
+
+.card-actions {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 16rpx;
+}
