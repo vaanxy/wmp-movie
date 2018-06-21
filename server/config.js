@@ -22,7 +22,7 @@ const CONF = {
         user: 'root',
         db: 'wmp_movie',
         pass: 'wx4bf6a840251af6c5',
-        char: 'utf8mb4'
+        char: 'utf8mb4_unicode_ci'
     },
 
     cos: {

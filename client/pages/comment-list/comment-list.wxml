@@ -4,6 +4,7 @@
     <image class="avator" src="{{comment.avatar}}"></image>
     <view class="comment-info">
       <view class="user">{{comment.username}}</view>
+      <rating score="{{comment.rating}}" size="sm" disabled="true"></rating>
       <view class="content">
         <view class="text-content" wx:if="{{comment.commentType === 0}}">{{comment.content}}</view>
       
@@ -17,9 +18,7 @@
       </view>
       <view class="date">{{comment.createTime}}</view>
     </view>
-    <!-- <view wx:if="{{!userInfo}}" class="actions">
-      <view class="login-tips">登陆后才可收藏和点赞</view>
-    </view> -->
+    
     <view class="actions">
       <!-- 点赞 -->
       <view class="action-wrapper" bindtap="toggleLike" data-comment="{{comment}}">

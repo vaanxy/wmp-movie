@@ -22,6 +22,7 @@ Page({
    */
   onLoad: function (options) {
     let commentType = +options.commentType;
+    let rating = +options.rating;
     const movie = {
       id: +options.movieId,
       title: options.movieTitle,
@@ -36,7 +37,8 @@ Page({
         this.setData({
           movie,
           content,
-          commentType
+          commentType,
+          rating
         });
       },
     })
@@ -167,7 +169,7 @@ Page({
         data: {
           movieId: this.data.movie.id,
           content: content,
-          rating: 5,
+          rating: this.data.rating,
           commentType: this.data.commentType
         },
         success: (res) => {

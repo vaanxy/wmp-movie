@@ -1,3 +1,6 @@
 {
-  "disableScroll": true
+  "disableScroll": true,
+  "usingComponents": {
+    "rating": "/components/rating/rating"
+  }
 }

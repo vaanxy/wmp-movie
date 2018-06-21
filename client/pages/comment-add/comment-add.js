@@ -24,6 +24,7 @@ Page({
     commentType: 1, // 0: 文字; 1: 语音;
     movie: null,
     voice: null,
+    rating: 0,
     text: '',
     textMaxLength: 255,
     recordBoundingRect: {},
@@ -60,8 +61,19 @@ Page({
 
   },
 
+  /**
+   * 用户打分的触发事件
+   */
+  onRating(event) {
+    this.setData({
+      rating: event.detail.score
+    });
+  },
+
+  /**
+   * 用户输入影评时的触发事件
+   */
   onInput(event) {
-    // console.log(event);
     const text = event.detail.value;
     this.setData({
       text
@@ -231,13 +243,20 @@ Page({
   },
 
   preview() {
+    if (this.data.rating === 0) {
+      wx.showToast({
+        image: '../../images/warning.png',
+        title: '记得打分哟',
+      })
+      return;
+    }
     let content = this.data.commentType ? JSON.stringify(this.data.voice) : this.data.text;
     wx.setStorage({
       key: 'comment-content',
       data: content,
       success: () => {
         wx.navigateTo({
-          url: `/pages/comment-preview/comment-preview?commentType=${this.data.commentType}&movieId=${this.data.movie.id}&movieImage=${this.data.movie.image}&movieTitle=${this.data.movie.title}`,
+          url: `/pages/comment-preview/comment-preview?commentType=${this.data.commentType}&movieId=${this.data.movie.id}&movieImage=${this.data.movie.image}&movieTitle=${this.data.movie.title}&rating=${this.data.rating}`,
         });
       },
 

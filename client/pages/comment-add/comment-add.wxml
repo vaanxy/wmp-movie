@@ -24,6 +24,9 @@
           <!-- 评论区域 -->
       <view class="comment-info">
        <view  class="comment-tips">请输入你的影评内容...</view>
+       <view>
+        <rating bind:rating="onRating"></rating>
+       </view>
         <!-- 文字评论 -->
         <block wx:if="{{commentType === 0}}" class="text-comment">
           <textarea class="content-textarea" auto-focus maxlength="{{textMaxLength}}" bindinput="onInput"></textarea>

@@ -25,6 +25,11 @@
 
 }
 
+rating .star-wrapper {
+  /* display: inline-block; */
+  height: 25rpx;
+}
+
 .content {
   padding: 32rpx 0;
   font-size: 30rpx;

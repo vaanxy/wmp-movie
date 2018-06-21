@@ -1,0 +1,23 @@
+/* components/rating.wxss */
+.star-wrapper {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 250rpx;
+  height: 50rpx;
+}
+
+.star-wrapper.sm {
+  width: 125rpx;
+  height: 25rpx;
+}
+
+.star-wrapper.lg {
+  width: 350rpx;
+  height: 35rpx;
+}
+
+.star {
+  width: 25%;   
+  height: 100%;
+}
