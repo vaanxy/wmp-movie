@@ -1,6 +1,8 @@
 {
   "component": true,
   "usingComponents": {
-    "card": "/components/card/card"
+    "card": "/components/card/card",
+    "rating": "/components/rating/rating",
+    "audio-player": "/components/audio-player/audio-player"
   }
 }

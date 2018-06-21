@@ -1,0 +1,33 @@
+/* components/audio-player/audio-player.wxss */
+/* 音频播放条的样式 */
+:host {
+  display: block;
+  width: 300rpx;
+}
+.player-wrapper {
+  width: 100%
+}
+.audio {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 32rpx;
+  border: 1rpx solid darkgray;
+  border-radius: 8rpx;
+  background-color: lightgray;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  min-width: 100rpx;
+  height: 60rpx;
+  margin: 32rpx;
+}
+
+.audio:hover {
+  background-color: darkgray;
+}
+
+.audio .icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 10rpx;
+}

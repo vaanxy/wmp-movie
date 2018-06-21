@@ -7,9 +7,13 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    imageSrc: {
-      type: String,
-      value: '../../images/user.png'
+    comment: {
+      type: Object,
+      value: null
+    },
+    isPlaying: {
+      type: Boolean,
+      value: false
     }
 
   },
@@ -25,6 +29,9 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    tapPlayer(event) {
+      // console.log(event);
+      this.triggerEvent("tapplayer", { src: event.detail.src})
+    }
   }
 })

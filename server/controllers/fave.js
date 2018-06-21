@@ -2,6 +2,9 @@
 const DB = require('../utils/db')
 
 module.exports = {
+  /**
+   * 用户是否已收藏的列表
+   */
   list: async ctx => {
     const movieId = +ctx.request.query.movieId;
     const user = ctx.state.$wxInfo.userinfo.openId;
@@ -11,6 +14,10 @@ module.exports = {
       ctx.state.code = -1;
     }
   },
+
+  /**
+   * 收藏/取消收藏
+   */
   toggleFave: async ctx => {
     const commentId = +ctx.request.body.commentId;
     const movieId = +ctx.request.body.movieId;

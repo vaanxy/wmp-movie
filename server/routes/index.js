@@ -49,5 +49,9 @@ router.put('/like', validationMiddleware, controllers.like.toggleLike)
 router.get('/fave', validationMiddleware, controllers.fave.list)
 // PUT 收藏/取消收藏
 router.put('/fave', validationMiddleware, controllers.fave.toggleFave)
+// GET 获取我收藏的评论列表
+router.get('/me/fave', validationMiddleware, controllers.me.myFaveComments)
+// GET 获取我发布的评论列表
+router.get('/me/published', validationMiddleware, controllers.me.myPublishedComments)
 
 module.exports = router

@@ -43,6 +43,10 @@ var config = {
 
         faveList: `${host}/weapp/fave?movieId=`,
 
+        myFaveComments: `${host}/weapp/me/fave`,
+
+        myPublishedComments: `${host}/weapp/me/published`,
+
 
     }
 };

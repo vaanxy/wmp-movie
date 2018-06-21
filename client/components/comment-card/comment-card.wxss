@@ -3,12 +3,21 @@
   display: block;
 }
 
+card {
+  height: 400rpx !important;
+}
+
 .comment-info {
   padding: 32rpx;
 }
 
 .comment-info view {
   margin: 10rpx 0;
+}
+
+.comment-info .title {
+  font-size: 30rpx;
+  line-height: 42rpx;
 }
 
 .user-info {
@@ -33,7 +42,7 @@ image.avatar {
   text-overflow:ellipsis;
   /* 以上4行实现超过2行的文字以...代替  */
   font-weight: 300;
-  font-size: 30rpx;
+  font-size: 25rpx;
   line-height: 45rpx;
   margin-right: 16rpx;
   height: 90rpx; /* 强制高度为行高的2倍, 保证能完整显示2行文字 */

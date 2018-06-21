@@ -1,34 +1,48 @@
 <!--pages/user/user.wxml-->
-<view class="tab-wrapper">
-  <view data-tab="my" bindtap="onTapTab" class="tab-item {{activedTab === 'my' ? 'active' : ''}}">我的影评</view>
-  <view data-tab="fave" bindtap="onTapTab" class="tab-item {{activedTab === 'fave' ? 'active' : ''}}">我的收藏</view>
-</view>
-<view class="my-comment" wx:if="{{activedTab === 'my'}}">
-  <empty-tips-card 
-  wx:if="{{myComments.length === 0}}"
-  tips-title="还没有发布影评" 
-  tips-content="快去尝试发布影评吧～"></empty-tips-card>
-  <view class="comment-list" wx:else>
-    <comment-card image-src="../../images/user.png">
-      <view slot="card-actions" class="card-actions">
-        <button class="delete">删除</button>
-      </view>
-    </comment-card>
+<login wx:if="{{!userInfo}}"  bind:login="onTapLogin"></login>
+<view wx:else>
+  <!-- tab选项卡 -->
+  <view class="tab-wrapper">
+    <view data-tab="published" bindtap="onTapTab" class="tab-item {{activedTab === 'published' ? 'active' : ''}}">我的影评</view>
+    <view data-tab="fave" bindtap="onTapTab" class="tab-item {{activedTab === 'fave' ? 'active' : ''}}">我的收藏</view>
   </view>
-
-</view>
-
-
-<view class="fave-comment" wx:if="{{activedTab === 'fave'}}">
-  <empty-tips-card 
-  wx:if="{{faveComments.length === 0}}
-  tips-title="还没有收藏影评" 
-  tips-content="快去尝试收藏影评吧～"></empty-tips-card>
-  <view wx:else class="comment-list">
-    <comment-card image-src="../../images/user.png">
-      <view slot="card-actions" class="card-actions">
-        <button class="fave">取消收藏</button>
-      </view>
-    </comment-card>
+  <!-- 我的影评 -->
+  <view class="my-comment" wx:if="{{activedTab === 'published'}}">
+    <empty-tips-card 
+    wx:if="{{myPublishedComments.length === 0}}"
+    tips-title="还没有发布影评" 
+    tips-content="快去尝试发布影评吧～"></empty-tips-card>
+    <view class="comment-list" wx:else>
+      <comment-card
+        data-comment="{{comment}}"
+        is-playing="{{isPlaying && currentPlayingCommentId === comment.id}}"
+        bind:tapplayer="playOrStop"
+        image-src="../../images/user.png" wx:for="{{myPublishedComments}}" wx:key="id" wx:for-item="comment"
+        comment="{{comment}}">
+        <view slot="card-actions" class="card-actions">
+          <button class="delete">删除</button>
+        </view>
+      </comment-card>
+    </view>
+  </view>
+  <!-- 我的收藏 -->
+  <view class="fave-comment" wx:if="{{activedTab === 'fave'}}">
+    <empty-tips-card 
+      wx:if="{{myFaveComments.length === 0}}
+      tips-title="还没有收藏影评" 
+      tips-content="快去尝试收藏影评吧～"></empty-tips-card>
+    <view wx:else class="comment-list">
+      <comment-card
+        data-comment="{{comment}}"
+        is-playing="{{isPlaying && currentPlayingCommentId === comment.id}}"
+        bind:tapplayer="playOrStop"
+        wx:for="{{myFaveComments}}" wx:key="id" wx:for-item="comment"
+        image-src="../../images/user.png"
+        comment="{{comment}}">
+        <view slot="card-actions" class="card-actions">
+          <button class="fave">取消收藏</button>
+        </view>
+      </comment-card>
+    </view>
   </view>
 </view>

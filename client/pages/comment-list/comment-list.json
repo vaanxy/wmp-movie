@@ -1,5 +1,6 @@
 {
       "usingComponents": {
-        "rating": "/components/rating/rating"
+        "rating": "/components/rating/rating",
+        "audio-player": "/components/audio-player/audio-player"
       }
 }

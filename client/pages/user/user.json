@@ -1,5 +1,6 @@
 {
     "usingComponents": {
+      "login": "/components/login/login",
       "comment-card": "/components/comment-card/comment-card",
       "empty-tips-card": "/components/empty-tips-card/empty-tips-card"
     }

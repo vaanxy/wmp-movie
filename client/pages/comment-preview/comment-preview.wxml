@@ -1,16 +1,7 @@
 <!--pages/comment-preview/comment-preview.wxml-->
 <!--pages/comment-add/comment-add.wxml-->
-<view wx:if="{{!userInfo}}">
-  <view class="unlogin-card">
-    <view class="unlogin-head"></view>
-    <view class="unlogin-info">
-      <view class="unlogin-text">未登录</view>
-      <view class="unlogin-tips">点击微信登录后才可预览影评</view>
-    </view>
-  </view>
-  <button class="unlogin-btn" open-type="getUserInfo" bindgetuserinfo="onTapLogin">微信登录</button>
-</view>
-<view wx:if="{{userInfo}}">
+<login wx:if="{{!userInfo}}"  bind:login="onTapLogin" tips="点击微信登录后才可预览影评"></login>
+<view wx:else>
   <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
     <!-- 影片信息 -->
     <view class="movie-info">

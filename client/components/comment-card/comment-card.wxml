@@ -1,17 +1,20 @@
 <!--components/comment-card/comment-card.wxml-->
-<card image-src="{{imageSrc}}">
-    <view slot="card-content" class="comment-info">
-      <view class="title">gangtiexie</view>
-      <view class="content">
-        <view class="text-content">sdfffffffflkjflsdjfldskfjsldkfjdslkfjdslkfjsdlkfjsdlkfjsdkfjsdlfksjdflksdfjkdsfjlsdjl</view>
-        <view class="voice-content"></view>
-      </view>
-      <view class="user-info">
-        <image class="avatar"></image>
-        <view class="username">vaan</view>
+<card image-src="{{comment.movieImage}}">
+  <view slot="card-content" class="comment-info">
+    <view class="title">{{comment.movieTitle}}</view>
+    <rating score="{{comment.rating}}" disabled="true" size="sm"></rating>
+    <view class="content">
+      <view class="text-content" wx:if="{{comment.commentType === 0}}">{{comment.content}}</view>
+      <view class="voice-content" wx:if="{{comment.commentType === 1}}">
+        <audio-player audio="{{comment.content}}" bind:tapplayer="tapPlayer" is-playing="{{isPlaying}}"></audio-player>
       </view>
     </view>
-    <view slot="card-actions" class="card-actions">
-      <slot name="card-actions"></slot>
+    <view class="user-info">
+      <image class="avatar" src="{{comment.avatar}}"></image>
+      <view class="username">{{comment.username}}</view>
     </view>
+  </view>
+  <view slot="card-actions" class="card-actions">
+    <slot name="card-actions"></slot>
+  </view>
 </card>

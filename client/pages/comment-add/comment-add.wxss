@@ -1,6 +1,5 @@
 /* pages/comment-add/comment-add.wxss */
-
-.comment-tips {
+ .comment-tips {
   font-size: 30rpx;
   line-height: 60rpx;
   text-align: center;
