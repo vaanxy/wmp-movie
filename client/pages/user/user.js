@@ -5,7 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    activedTab: 'my',
+    myComments: [],
+    faveComments: []
+  },
+
+  onTapTab(event) {
+    const tab = event.currentTarget.dataset.tab;
+    this.setData({
+      activedTab: tab
+    });
   },
 
   /**

@@ -1,6 +1,6 @@
 {
     "usingComponents": {
-      "card": "/components/card/card",
-      "comment-card": "/components/comment-card/comment-card"
+      "comment-card": "/components/comment-card/comment-card",
+      "empty-tips-card": "/components/empty-tips-card/empty-tips-card"
     }
 }

@@ -16,8 +16,10 @@
   color: orange;
 }
 
-
-card {
+empty-tips-card {
+  margin: 37rpx 27rpx;
+}
+comment-card {
   width: 680rpx;
   margin: 32rpx auto;
 }

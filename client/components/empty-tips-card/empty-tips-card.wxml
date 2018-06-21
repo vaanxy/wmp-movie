@@ -1,0 +1,6 @@
+<!--components/empty-tips-card/empty-tips-card.wxml-->
+  <view class="empty-card">
+    <image class="empty-image" src="{{imageSrc}}"></image>
+    <view class="empty-text">{{tipsTitle}}</view>
+    <view class="empty-text">{{tipsContent}}</view>
+  </view>

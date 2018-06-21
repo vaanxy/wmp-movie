@@ -1,26 +1,34 @@
 <!--pages/user/user.wxml-->
 <view class="tab-wrapper">
-  <view class="tab-item">我的影评</view>
-  <view class="tab-item">我的收藏</view>
+  <view data-tab="my" bindtap="onTapTab" class="tab-item {{activedTab === 'my' ? 'active' : ''}}">我的影评</view>
+  <view data-tab="fave" bindtap="onTapTab" class="tab-item {{activedTab === 'fave' ? 'active' : ''}}">我的收藏</view>
 </view>
-<view class="empty-card">
-  <image class="empty-image" src="../../images/user.png"></image>
-  <view class="empty-text">还没有发布影评</view>
-  <view class="empty-text">快去尝试发布影评吧～</view>
-</view>
-<view class="comment-list">
-  <card></card>
-  <comment-card image-src="../../images/user.png">
-      <view slot="card-actions"  class="card-actions">
-        <button class="delete">删除</button>
-    </view>
-  </comment-card>
-
+<view class="my-comment" wx:if="{{activedTab === 'my'}}">
+  <empty-tips-card 
+  wx:if="{{myComments.length === 0}}"
+  tips-title="还没有发布影评" 
+  tips-content="快去尝试发布影评吧～"></empty-tips-card>
+  <view class="comment-list" wx:else>
     <comment-card image-src="../../images/user.png">
-      <view slot="card-actions"  class="card-actions">
-        <button class="fave">取消收藏</button>
-    </view>
-  </comment-card>
+      <view slot="card-actions" class="card-actions">
+        <button class="delete">删除</button>
+      </view>
+    </comment-card>
+  </view>
+
 </view>
 
-<view class="comment-list"></view>
+
+<view class="fave-comment" wx:if="{{activedTab === 'fave'}}">
+  <empty-tips-card 
+  wx:if="{{faveComments.length === 0}}
+  tips-title="还没有收藏影评" 
+  tips-content="快去尝试收藏影评吧～"></empty-tips-card>
+  <view wx:else class="comment-list">
+    <comment-card image-src="../../images/user.png">
+      <view slot="card-actions" class="card-actions">
+        <button class="fave">取消收藏</button>
+      </view>
+    </comment-card>
+  </view>
+</view>
