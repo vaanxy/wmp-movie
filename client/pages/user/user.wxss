@@ -16,14 +16,10 @@
   color: orange;
 }
 
-.comment-card {
-  display: flex;
-  width: 650rpx;
-  height: 350rpx;
-  background: white;
-  border-radius: 16rpx;
-  box-shadow: 0 10rpx 40rpx 0 rgba(0,0,0,.19); 
-  margin: 0 auto;
+
+card {
+  width: 680rpx;
+  margin: 32rpx auto;
 }
 
 .card-actions {

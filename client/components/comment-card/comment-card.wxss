@@ -1,4 +1,8 @@
 /* components/comment-card/comment-card.wxss */
+:host {
+  display: block;
+}
+
 .comment-info {
   padding: 32rpx;
 }

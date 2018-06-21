@@ -1,12 +1,15 @@
 /* components/card/card.wxss */
+:host {
+  display: block;
+  height: 350rpx; 
+}
 .card-wrapper {
   display: flex;
-  width: 650rpx;
-  height: 350rpx;
+  width: 100%;
+  height: 100%;
   background: white;
   border-radius: 16rpx;
   box-shadow: 0 10rpx 40rpx 0 rgba(0,0,0,.19); 
-  margin: 0 auto;
 }
 
 .content-container {
@@ -16,7 +19,7 @@
 
 .card-image {
   width: 250rpx;
-  height: 350rpx;
+  height: 100%;
 }
 
 .card-actions {

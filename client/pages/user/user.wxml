@@ -9,6 +9,7 @@
   <view class="empty-text">快去尝试发布影评吧～</view>
 </view>
 <view class="comment-list">
+  <card></card>
   <comment-card image-src="../../images/user.png">
       <view slot="card-actions"  class="card-actions">
         <button class="delete">删除</button>
