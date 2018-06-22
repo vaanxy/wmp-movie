@@ -1,3 +1,4 @@
+<!--components/movie-container/movie-container.wxml-->
 <!--pages/movie-detail/movie-detail.wxml-->
 <view class="movie-wrapper">
   <view class="movie-info">

@@ -1,4 +1,4 @@
 <!--components/rating.wxml-->
 <view class="star-wrapper {{size === 'sm' ? 'sm' : size === 'lg' ? 'lg' : ''}}">
-  <image class="star" mode="aspectFit" wx:for="{{[1,2,3,4,5]}}" wx:key="{{item}}" data-score="{{item}}" src="{{ item <= score ? '../../images/star.png' : '../../images/unstar.png'}}" catchtap="rating"></image>
+  <image class="star" mode="aspectFit" wx:for="{{[1,2,3,4,5]}}" wx:key="{{item}}" data-score="{{item}}" src="{{ item <= score ? '../../images/star.png' : '../../images/unstar.png'}}" bindtap="rating"></image>
 </view>

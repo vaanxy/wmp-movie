@@ -1,0 +1,64 @@
+/* components/comment-previewer/comment-previewer.wxss */
+.comment-user {
+  display: flex;
+  align-items: center;
+  color: #637782;
+}
+
+.comment-user .avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+}
+
+.comment-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 16rpx;
+  margin: 16rpx 0;
+}
+
+.comment-content .quote {
+  min-width: 100rpx;
+  font-size: 80rpx;
+  text-align: center;
+}
+
+.text-content {
+  word-wrap: break-word;
+  flex: 1 1 auto;
+  font-size: 30rpx;
+  line-height: 42rpx;
+
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  line-height: 48rpx;
+  padding: 16rpx;
+  width: 250rpx;
+  color: #637782;
+}
+
+.btn-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 16rpx;
+}
+
+.comment-rating {
+  text-align: center;
+}
+
+.comment-rating rating {
+  display: inline-block;
+}

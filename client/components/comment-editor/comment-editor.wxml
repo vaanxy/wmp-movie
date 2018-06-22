@@ -1,0 +1,30 @@
+<!--components/comment-editor/comment-editor.wxml-->
+<view class="record-indicator" wx:if="{{isRecording}}">
+  <image class="record-indicator-icon" mode="widthFix" src="{{isCancelRecording ? '../../images/back-white.png' : '../../images/voice-white.png'}}"></image>
+  <view class="record-indicator-text {{isCancelRecording ? 'cancel' : ''}}">
+    {{isCancelRecording ? '手指松开 取消发送' : '手指上划 取消发送'}}
+  </view>
+</view>
+<!-- 评论区域 -->
+<view class="comment-info">
+  <view class="comment-tips">请输入你的影评内容...</view>
+  <view class="comment-rating">
+    <rating score="{{rating}}" bind:rating="onRating"></rating>
+  </view>
+  <!-- 文字评论 -->
+  <block wx:if="{{commentType === 0}}" class="text-comment">
+    <textarea class="content-textarea" auto-focus value="{{text}}" maxlength="{{textMaxLength}}" bindinput="onInput"></textarea>
+    <view class="content-counter">{{text.length}}/{{textMaxLength}}</view>
+  </block>
+  <!-- 语音评论 -->
+  <block wx:if="{{commentType === 1}}">
+    <audio-player wx:if="{{voice}}" audio="{{voice}}" bind:tapplayer="tapPlayer"></audio-player>
+    <!-- 录音按钮 -->
+    <view class="action-buttons">
+      <view class="recorder {{isRecording ? 'recording' : ''}}" bindtouchstart="touchStart" bindtouchcancel="touchCancel" bindtouchend="touchEnd" bindtouchmove="touchMove">
+        <image class="record-icon" src="../../images/voice.png"></image>
+        <view class="record-text">{{isRecording ? '松开 结束' : '按住 说话'}}</view>
+      </view>
+    </view>
+  </block>
+</view>

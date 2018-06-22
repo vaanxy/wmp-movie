@@ -1,0 +1,102 @@
+/* components/comment-editor/comment-editor.wxss */
+audio-player {
+  width: 500rpx !important;
+}
+
+.comment-rating {
+  text-align: center;
+}
+
+.comment-rating rating {
+  display: inline-block;
+}
+
+.comment-tips {
+  font-size: 30rpx;
+  line-height: 60rpx;
+  text-align: center;
+  color: #637782;
+}
+
+.content-textarea {
+  border: 1px solid gray;
+  border-radius: 8rpx;
+  padding: 8rpx;
+  width: 90%; 
+  margin: auto;
+  font-size: 30rpx;
+  line-height: 60rpx;
+}
+
+.content-counter {
+  margin-top: 16rpx;
+  margin-right: 16rpx; 
+  text-align: right;
+  font-size: 20rpx;
+  line-height: 28rpx;
+  color: darkgray;
+}
+
+.recorder {
+  display: flex;
+  justify-content: center;
+  width: 400rpx;
+  text-align: center;
+  padding: 16rpx;
+  margin: 64rpx auto;
+  border: 1rpx solid #aaa;
+  border-radius: 16rpx;
+  background-color: white;
+}
+
+.recorder.recording {
+  background-color: #ccc;
+}
+
+.recorder .record-icon {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 16rpx;
+}
+
+.record-indicator {
+  position: absolute;
+  top: 200rpx; 
+  left: 200rpx; 
+  width: 350rpx;
+  height: 350rpx;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 16rpx;
+  text-align: center;
+  z-index: 100;
+}
+
+.record-indicator-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 8rpx 16rpx;
+  text-align: center;
+  color: white;
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.record-indicator-icon {
+  width: 200rpx;
+  margin: 50rpx;
+  
+}
+
+.record-indicator-text.cancel {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.action-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0; 
+  text-align: center;
+}

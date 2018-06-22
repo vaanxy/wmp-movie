@@ -1,18 +1,8 @@
 // pages/comment-add/comment-add.js
-
+const qcloud = require('../../vendor/wafer2-client-sdk/index')
+const config = require('../../config')
 const app = getApp();
-const MAX_RECORD_TIME = 60000 // 最大录音时长(ms)
-const MAX_RECORD_WIDTH = 500 // 录音条最大宽度(rpx)
-const RECORD_OPTIONS = {
-  duration: MAX_RECORD_TIME,
-  sampleRate: 44100,
-  numberOfChannels: 1,
-  encodeBitRate: 192000,
-  format: 'aac',
-  frameSize: 50
-}
 
-let recorderManager;
 Page({
 
   /**
@@ -23,14 +13,9 @@ Page({
     userInfo: null,
     commentType: 1, // 0: 文字; 1: 语音;
     movie: null,
-    voice: null,
+    content: null,
     rating: 0,
-    text: '',
-    textMaxLength: 255,
-    recordBoundingRect: {},
-    isRecording: false,
-    isCancelRecording: false,
-    isPlaying: false,
+    isEditing: true
   },
 
   /**
@@ -38,7 +23,7 @@ Page({
    */
   onLoad: function(options) {
     let commentType = +options.commentType;
-    // commentType = 0;
+
     const movie = {
       id: +options.movieId,
       title: options.movieTitle,
@@ -61,115 +46,22 @@ Page({
 
   },
 
-  /**
-   * 用户打分的触发事件
-   */
-  onRating(event) {
-    this.setData({
-      rating: event.detail.score
-    });
-  },
-
-  /**
-   * 用户输入影评时的触发事件
-   */
   onInput(event) {
-    const text = event.detail.value;
     this.setData({
-      text
+      content: event.detail.text
     });
   },
 
-  /**
-   * 初始化录音器
-   */
-  initRecordManager() {
-    if (this.data.commentType === 1) {
-      wx.createSelectorQuery().in(this).select('#record').boundingClientRect((res) => {
-        console.log(res)
-        this.setData({
-          recordBoundingRect: {
-            top: res.top,
-            left: res.left,
-            right: res.right,
-            bottom: res.bottom
-          }
-        })
-      }).exec();
-      recorderManager = wx.getRecorderManager();
-      recorderManager.onStart(() => {
-        wx.vibrateShort()
-        // 先停止当前正在播放的音频
-        this.stop();
-        this.setData({
-          isRecording: true,
-        });
-      })
-      recorderManager.onPause(() => {
-        // console.log('recorder pause')
-      })
-      recorderManager.onStop((res) => {
-        this.setData({
-          isRecording: false,
-        });
-        if (!this.data.isCancelRecording) {
-          this.addVoice(res)
-        }
-      })
-    }
-  },
-
-  addVoice(record) {
+  onRecorded(event) {
     this.setData({
-      voice: record
+      content: event.detail.voice
     });
   },
 
-  touchStart(event) {
+  onRated(event) {
     this.setData({
-      voice: null
+      rating: event.detail.rating
     });
-    const point = event.changedTouches[0];
-    this.setData({
-      isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
-    });
-
-    recorderManager.start(RECORD_OPTIONS)
-
-  },
-
-  touchCancel(event) {
-    console.log('cancel')
-    console.log(event)
-    this.setData({
-      isRecording: false
-    })
-  },
-
-  touchEnd(event) {
-    console.log('end recording')
-    const point = event.changedTouches[0]
-    this.setData({
-      isRecording: false,
-      isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
-    })
-    recorderManager.stop()
-
-  },
-  touchMove(event) {
-    // console.log('move')
-    const point = event.changedTouches[0]
-    this.setData({
-      isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
-    })
-  },
-
-  /**
-   * 判断当前手指触摸位置是否在录音按钮内部
-   */
-  isInBoundingRect(x, y) {
-    let rect = this.data.recordBoundingRect;
-    return (y >= rect.top && y <= rect.bottom && x >= rect.left && x <= rect.right)
   },
 
   preview() {
@@ -180,17 +72,96 @@ Page({
       })
       return;
     }
-    let content = this.data.commentType ? JSON.stringify(this.data.voice) : this.data.text;
-    wx.setStorage({
-      key: 'comment-content',
-      data: content,
-      success: () => {
-        wx.navigateTo({
-          url: `/pages/comment-preview/comment-preview?commentType=${this.data.commentType}&movieId=${this.data.movie.id}&movieImage=${this.data.movie.image}&movieTitle=${this.data.movie.title}&rating=${this.data.rating}`,
-        });
-      },
+    this.setData({
+      isEditing: false
+    });
+  },
 
-    })
+  toEdit() {
+    this.setData({
+      isEditing: true
+    });
+  },
+
+  uploadVoice(cb) {
+    if (this.data.commentType === 1) {
+      wx.uploadFile({
+        url: config.service.uploadUrl,
+        filePath: this.data.content.tempFilePath,
+        name: 'file',
+        success: res => {
+          let data = JSON.parse(res.data)
+          console.log(data)
+
+          if (!data.code) {
+            const voice = {
+              duration: this.data.content.duration,
+              durationText: this.data.content.durationText,
+              width: this.data.content.width,
+              src: data.data.imgUrl
+            }
+            const content = JSON.stringify(voice);
+            cb && cb(content);
+          } else {
+            wx.showToast({
+              title: '发布失败',
+            });
+          }
+        },
+        fail: (err) => {
+          console.log(err)
+          wx.showToast({
+            title: '发布失败',
+          });
+        }
+      })
+    } else {
+      cb && cb(this.data.content);
+    }
+  },
+
+  /**
+   * 发布影评，发布成功后自动跳转至该电影的评论列表页面
+   */
+  publish() {
+    wx.showLoading({
+      title: '正在发布...',
+    });
+    this.uploadVoice((content) => {
+      qcloud.request({
+        url: config.service.commentAdd,
+        isLogin: true,
+        method: 'POST',
+        data: {
+          movieId: this.data.movie.id,
+          content: content,
+          rating: this.data.rating,
+          commentType: this.data.commentType
+        },
+        success: (res) => {
+          console.log(res);
+          wx.showToast({
+            title: '发布成功',
+          });
+        },
+        fail: (err) => {
+          console.log(err);
+          wx.showToast({
+            title: '发布失败',
+          });
+        },
+        complete: () => {
+          wx.hideLoading();
+        }
+      });
+    });
+    // 此处使用redirectTo是为了防止用户点击返回，又返回了预览页面
+    setTimeout(() => {
+      wx, wx.redirectTo({
+        url: '/pages/comment-list/comment-list?movieId=' + this.data.movie.id,
+      })
+    }, 1000);
+
   },
 
   /**
@@ -226,9 +197,6 @@ Page({
   onLoginSuccess(userInfo) {
     this.setData({
         userInfo
-      },
-      () => {
-        this.initRecordManager();
       });
   },
 
@@ -244,19 +212,5 @@ Page({
         console.log(err)
       }
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-  },
-
+  }
 })

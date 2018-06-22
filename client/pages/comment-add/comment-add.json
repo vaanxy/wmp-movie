@@ -3,6 +3,7 @@
   "usingComponents": {
     "rating": "/components/rating/rating",
     "login": "/components/login/login",
-    "audio-player": "/components/audio-player/audio-player"
+    "comment-editor": "/components/comment-editor/comment-editor",
+    "comment-previewer": "/components/comment-previewer/comment-previewer"
   }
 }

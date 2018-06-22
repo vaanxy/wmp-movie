@@ -3,12 +3,11 @@
     "pages/movie-list/movie-list",
     "pages/home/home",
     "pages/user/user",
-    
+
     "pages/movie-detail/movie-detail",
     "pages/comment-list/comment-list",
     "pages/comment-detail/comment-detail",
-    "pages/comment-add/comment-add",
-    "pages/comment-preview/comment-preview"
+    "pages/comment-add/comment-add"
   ],
   "tabBar": {
     "list": [

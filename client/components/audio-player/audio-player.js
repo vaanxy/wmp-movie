@@ -63,6 +63,9 @@ Component({
         this.audioContext.onError((res) => {
           console.log(res.errMsg)
           console.log(res.errCode)
+          this.setData({
+            isPlaying: false
+          });
         });
 
         this.audioContext.onStop(() => {

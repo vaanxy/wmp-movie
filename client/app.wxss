@@ -37,14 +37,6 @@ empty-tips-card {
   line-height: 56rpx;
 }
 
-.comment-rating {
-  text-align: center;
-}
-
-.comment-rating rating {
-  display: inline-block;
-}
-
 .action-buttons {
   display: flex;
   justify-content: space-between;
@@ -59,35 +51,9 @@ empty-tips-card {
   width: 250rpx;
   color: #637782;
 }
+
 .btn-icon {
   width: 50rpx;
   height: 50rpx;
   margin-right: 16rpx;
-}
-
-/* 音频播放条的样式 */
-.voice {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  padding-left: 32rpx;
-  border: 1rpx solid darkgray;
-  border-radius: 8rpx;
-  background-color: lightgray;
-  font-size: 20rpx;
-  line-height: 28rpx;
-  min-width: 100rpx;
-  max-width: 700rpx;
-  height: 60rpx;
-  margin: 32rpx;
-}
-
-.voice:hover {
-  background-color: darkgray;
-}
-
-.voice-icon {
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 10rpx;
 }

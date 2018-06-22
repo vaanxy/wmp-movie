@@ -1,7 +1,0 @@
-{
-    "usingComponents": {
-      "rating": "/components/rating/rating",
-      "login": "/components/login/login",
-      "audio-player": "/components/audio-player/audio-player"
-    }
-}
