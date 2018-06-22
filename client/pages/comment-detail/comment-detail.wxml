@@ -1,2 +1,21 @@
 <!--pages/comment-detail/comment-detail.wxml-->
-<text>pages/comment-detail/comment-detail.wxml</text>
+<login wx:if="{{!userInfo}}" bind:login="onTapLogin" tips="点击微信登录后才可添加评论"></login>
+<movie-container>
+  <view slot="content">
+    <comment-previewer rating="{{rating}}" comment-type="{{commentType}}" content="{{content}}" user-info="{{userInfo}}" bind:toedit="toEdit" bind:publish="publish"></comment-previewer>
+  </view>
+  <view slot="actions">
+    <button class="view-comments">
+      <image class="btn-icon" src="../../images/movie.png"></image>
+      <view class="btn-text">收藏</view>
+    </button>
+    <button class="view-comments">
+      <image class="btn-icon" src="../../images/movie.png"></image>
+      <view class="btn-text">喜欢</view>
+    </button>
+    <button class="add-comment" bindtap="showActionSheet">
+      <image class="btn-icon" src="../../images/movie.png"></image>
+      <view class="btn-text">写影评</view>
+    </button>
+  </view>
+</movie-container>

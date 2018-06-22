@@ -1,22 +1,39 @@
 <!--pages/comment-add/comment-add.wxml-->
 <login wx:if="{{!userInfo}}" bind:login="onTapLogin" tips="点击微信登录后才可添加评论"></login>
 <view wx:else>
-  <view class="record-indicator" wx:if="{{isRecording}}">
-    <image class="record-indicator-icon" mode="widthFix" src="{{isCancelRecording ? '../../images/back-white.png' : '../../images/voice-white.png'}}"></image>
-    <view class="record-indicator-text {{isCancelRecording ? 'cancel' : ''}}">
-      {{isCancelRecording ? '手指松开 取消发送' : '手指上划 取消发送'}}
+  <movie-container movie="{{movie}}">
+    <view slot="content">
+      <comment-editor wx:if="{{isEditing}}" comment-type="{{commentType}}" text="{{content}}" voice="{{content}}" rating="{{rating}}" bind:rated="onRated" bind:recorded="onRecorded" bind:input="onInput"></comment-editor>
+      <comment-previewer wx:else comment-type="{{commentType}}" content="{{content}}" rating="{{rating}}" user-info="{{userInfo}}" bind:toedit="toEdit" bind:publish="publish"></comment-previewer>
     </view>
-  </view>
-  <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
+
+     <!-- 预览影评 -->
+    <view slot="actions" wx:if="{{isEditing}}">
+      <button class="btn-finish" disabled="{{!content}}" bindtap="preview">
+        完成
+      </button>
+    </view>
+    <!-- 重新影评 & 发布影评 -->
+
+    <view slot="actions" wx:if="{{!isEditing}}">
+      <button class="view-comments" bindtap="toEdit">
+        <image class="btn-icon" src="../../images/movie.png"></image>
+        <view class="btn-text">重新影评</view>
+      </button>
+      <button class="add-comment" bindtap="publish">
+        <image class="btn-icon" src="../../images/movie.png"></image>
+        <view class="btn-text">发布影评</view>
+      </button>
+    </view>
+  </movie-container>
+  <!-- <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
     <view class="movie-info">
       <image class="movie-image" src="{{movie.image}}"></image>
       <view class="movie-title">{{movie.title}}</view>
     </view>
     <comment-editor wx:if="{{isEditing}}" comment-type="{{commentType}}" text="{{content}}" voice="{{content}}" rating="{{rating}}" bind:rated="onRated" bind:recorded="onRecorded" bind:input="onInput"></comment-editor>
     <comment-previewer wx:else comment-type="{{commentType}}" content="{{content}}" rating="{{rating}}" user-info="{{userInfo}}" bind:toedit="toEdit" bind:publish="publish"></comment-previewer>
-  </view>
+  </view> -->
 
-  <button class="btn-finish" disabled="{{!content}}" bindtap="preview">
-    完成
-  </button>
+
 </view>

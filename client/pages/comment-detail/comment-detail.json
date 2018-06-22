@@ -1,1 +1,6 @@
-{}
+{
+  "usingComponents": {
+    "movie-container": "/components/movie-container/movie-container",
+    "comment-previewer": "/components/comment-previewer/comment-previewer"
+  }
+}

@@ -19,19 +19,7 @@
     </block>
     <!-- 语音评论 -->
     <block wx:if="{{commentType === 1}}">
-    <audio-player wx:if="{{content}}" audio="{{content}}"></audio-player>
+      <audio-player wx:if="{{content}}" audio="{{content}}"></audio-player>
     </block>
-  </view>
-
-  <!-- 重新影评 & 发布影评 -->
-  <view class="action-buttons">
-    <button class="view-comments" bindtap="toEdit">
-      <image class="btn-icon" src="../../images/movie.png"></image>
-      <view class="btn-text">重新影评</view>
-    </button>
-    <button class="add-comment" bindtap="publish">
-      <image class="btn-icon" src="../../images/movie.png"></image>
-      <view class="btn-text">发布影评</view>
-    </button>
   </view>
 </view>

@@ -30,29 +30,7 @@
   flex: 1 1 auto;
   font-size: 30rpx;
   line-height: 42rpx;
-
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-
-.action-buttons button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30rpx;
-  line-height: 48rpx;
-  padding: 16rpx;
-  width: 250rpx;
-  color: #637782;
-}
-
-.btn-icon {
-  width: 50rpx;
-  height: 50rpx;
-  margin-right: 16rpx;
+  text-align: left;
 }
 
 .comment-rating {

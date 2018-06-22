@@ -1,13 +1,9 @@
 /* pages/comment-add/comment-add.wxss */
 
 button.btn-finish {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  width: 500rpx;
   color: white;
   background-color: #1cb977;
-  border-radius: 0;
 }
 
 button.btn-finish::after {

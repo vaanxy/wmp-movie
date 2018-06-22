@@ -26,6 +26,7 @@ audio-player {
   margin: auto;
   font-size: 30rpx;
   line-height: 60rpx;
+  text-align: left;
 }
 
 .content-counter {

@@ -22,11 +22,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    toEdit() {
-      this.triggerEvent('toedit');
-    },
-    publish() {
-      this.triggerEvent('publish');
-    }
+
   }
 })
