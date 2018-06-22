@@ -21,16 +21,7 @@ Component({
           this._preprocess(this.data.audio, newData);
         }
       }
-    },
-    isPlaying: {
-      type: Boolean,
-      value: false
     }
-
-    // audioContext: {
-    //   type: Object,
-    //   value: null,
-    // }
   },
 
   /**
@@ -39,16 +30,76 @@ Component({
   data: {
     widthRatio: 1,
     durationText: '0s',
-    // isPlaying: false,
+    isPlaying: false,
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
+
     tapPlayer() {
-      this.triggerEvent('tapplayer', { src: this.data.audio.src });
+      if (this.data.isPlaying) {
+        this.stop();
+      } else {
+        this.play();
+      }
+      this.triggerEvent('tapplayer', { audioContext: this.audioContext });
     },
+
+    /**
+     * 初始化音频播放控件
+     */
+    initInnerAudioContext() {
+      if (!this.audioContext) {
+        this.audioContext = wx.createInnerAudioContext();
+        this.audioContext.autoplay = false
+        this.audioContext.onPlay(() => {
+          this.setData({
+            isPlaying: true
+          })
+        });
+
+        this.audioContext.onError((res) => {
+          console.log(res.errMsg)
+          console.log(res.errCode)
+        });
+
+        this.audioContext.onStop(() => {
+          this.setData({
+            isPlaying: false
+          });
+        });
+
+        this.audioContext.onEnded(() => {
+          this.setData({
+            isPlaying: false
+          })
+        });
+      }
+    },
+
+    /**
+     * 播放音频
+     */
+    play() {
+      if (this.audioContext) {
+        if (this.data.audio) {
+          this.audioContext.src = this.data.audio.src;
+          this.audioContext.play();
+        }
+      }
+    },
+
+    /**
+     * 停止播放音频
+     */
+    stop() {
+      if (this.audioContext) {
+        this.audioContext.stop();
+      }
+    },
+
     /**
      * 计算音频时长宽度比
      * 格式化时长字符串
@@ -62,6 +113,14 @@ Component({
         widthRatio,
         durationText
       })
+    }
+  },
+  attached() {
+    this.initInnerAudioContext();
+  },
+  detached() {
+    if (this.audioContext) {
+      this.audioContext.destroy();
     }
   }
 })

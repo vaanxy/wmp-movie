@@ -11,7 +11,7 @@ const RECORD_OPTIONS = {
   format: 'aac',
   frameSize: 50
 }
-let innerAudioContext;
+
 let recorderManager;
 Page({
 
@@ -119,76 +119,7 @@ Page({
     }
   },
 
-  /**
-   * 初始化音频播放控件
-   */
-  initInnerAudioContext() {
-    if (!innerAudioContext) {
-      innerAudioContext = wx.createInnerAudioContext();
-      innerAudioContext.autoplay = false
-      innerAudioContext.onPlay(() => {
-        this.setData({
-          isPlaying: true
-        })
-      })
-      innerAudioContext.onError((res) => {
-        console.log(res.errMsg)
-        console.log(res.errCode)
-      });
-
-      innerAudioContext.onStop(() => {
-        this.setData({
-          isPlaying: false
-        })
-      });
-
-      innerAudioContext.onEnded(() => {
-        this.setData({
-          isPlaying: false
-        })
-      });
-    }
-  },
-
-  /**
-   * 播放音频
-   */
-  play(src) {
-    if (innerAudioContext) {
-      innerAudioContext.src = src;
-      innerAudioContext.play();
-    }
-
-  },
-
-  /**
-   * 停止播放音频
-   */
-  stop() {
-    if (innerAudioContext) {
-      innerAudioContext.stop();
-    }
-  },
-
-  /**
-   * 如果当前正在播放音频则停止，反之则播放
-   */
-  playOrStop(event) {
-    const src = event.currentTarget.dataset.voice.tempFilePath;
-    this.initInnerAudioContext();
-    if (this.data.isPlaying) {
-      this.stop();
-    } else {
-      this.play(src);
-    }
-  },
-
-
-
   addVoice(record) {
-    // 计算录音条的长度，长度和时间的关系是圆的左上1/4弧的曲线
-    record.width = Math.sqrt(1 - ((record.duration / MAX_RECORD_TIME) - 1) * ((record.duration / MAX_RECORD_TIME) - 1)) * MAX_RECORD_WIDTH;
-    record.durationText = (record.duration / 1000).toFixed(0) + 's';
     this.setData({
       voice: record
     });
@@ -198,7 +129,6 @@ Page({
     this.setData({
       voice: null
     });
-    // console.log('start recording');
     const point = event.changedTouches[0];
     this.setData({
       isCancelRecording: !this.isInBoundingRect(point.pageX, point.pageY)
@@ -327,10 +257,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-    if (innerAudioContext) {
-      innerAudioContext.destroy();
-      console.log(innerAudioContext);
-    }
   },
 
 })

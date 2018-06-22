@@ -1,19 +1,18 @@
 <!--pages/comment-list/comment-list.wxml-->
-<view class="comment-list">
+<empty-tips-card wx:if="{{commentList.length === 0}}
+      tips-title="还没有影评" 
+      tips-content="快去尝试添加影评吧～"></empty-tips-card>
+<view wx:else class="comment-list">
   <view class="comment-wrapper" wx:for="{{commentList}}" wx:key="id" wx:for-item="comment">
     <image class="avator" src="{{comment.avatar}}"></image>
     <view class="comment-info">
       <view class="user">{{comment.username}}</view>
       <rating score="{{comment.rating}}" size="sm" disabled="true"></rating>
       <view class="content">
-        <view class="text-content" wx:if="{{comment.commentType === 0}}">{{comment.content}}</view>
+        <view class="text-content" wx:if="{{comment.commentType===0 }}">{{comment.content}}</view>
       
-        <view class="voice-content" wx:if="{{comment.commentType === 1}}">
-          <view class="voice" style="width: {{comment.content.width}}rpx" bindtap="playOrStop" data-comment="{{comment}}">
-            <image class="voice-icon" src="../../images/{{isPlaying && currentPlayingCommentId === comment.id ? 'stop' : 'play'}}.png"></image>
-            <view class="voice-duration">{{comment.content.durationText}}</view>
-
-          </view>
+        <view class="voice-content" wx:if="{{comment.commentType===1 }}">
+          <audio-player audio="{{comment.content}}" bind:tapplayer="tapPlayer"></audio-player>
         </view>
       </view>
       <view class="date">{{comment.createTime}}</view>

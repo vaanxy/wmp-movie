@@ -10,12 +10,7 @@ Component({
     comment: {
       type: Object,
       value: null
-    },
-    isPlaying: {
-      type: Boolean,
-      value: false
     }
-
   },
 
   /**
@@ -31,7 +26,7 @@ Component({
   methods: {
     tapPlayer(event) {
       // console.log(event);
-      this.triggerEvent("tapplayer", { src: event.detail.src})
+      this.triggerEvent("tapplayer", { audioContext: event.detail.audioContext})
     }
   }
 })

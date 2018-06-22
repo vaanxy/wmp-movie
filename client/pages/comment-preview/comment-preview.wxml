@@ -1,5 +1,4 @@
 <!--pages/comment-preview/comment-preview.wxml-->
-<!--pages/comment-add/comment-add.wxml-->
 <login wx:if="{{!userInfo}}"  bind:login="onTapLogin" tips="点击微信登录后才可预览影评"></login>
 <view wx:else>
   <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
@@ -28,12 +27,7 @@
         </block>
         <!-- 语音评论 -->
         <block wx:if="{{commentType === 1}}">
-
-          <view class="voice" wx:if="{{content}}" style="width: {{content.width}}rpx" bindtap="playOrStop" data-voice="{{content}}">
-            <image class="voice-icon" src="../../images/{{isPlaying ? 'stop' : 'play'}}.png"></image>
-            <view class="voice-duration">{{content.durationText}}</view>
-
-          </view>
+        <audio-player wx:if="{{content}}" audio="{{content}}"></audio-player>
         </block>
       </view>
 

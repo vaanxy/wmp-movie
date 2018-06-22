@@ -4,7 +4,6 @@ const config = require('../../config')
 
 const app = getApp();
 
-let innerAudioContext;
 Page({
 
   /**
@@ -54,84 +53,15 @@ Page({
   },
 
   /**
-   * 初始化音频播放控件
+   * 点击音频播放后，先停止当前播放的audioContext，在将本次播放的audioContext设为当前audioContext
    */
-  initInnerAudioContext() {
-    if (!innerAudioContext) {
-      innerAudioContext = wx.createInnerAudioContext();
-      innerAudioContext.autoplay = false
-      innerAudioContext.onPlay(() => {
-        this.setData({
-          isPlaying: true
-        })
-      })
-      innerAudioContext.onError((res) => {
-        console.log(res.errMsg);
-        console.log(res.errCode);
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        });
-      });
-
-      innerAudioContext.onStop(() => {
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        })
-      });
-
-      innerAudioContext.onEnded(() => {
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        })
-      });
+  tapPlayer(event) {
+    const audioContext = event.detail.audioContext;
+    if (this.currentAudioContext && this.currentAudioContext !== audioContext) {
+      this.currentAudioContext.stop()
     }
+    this.currentAudioContext = audioContext;
   },
-  /**
-   * 播放音频
-   */
-  play(src) {
-    if (innerAudioContext) {
-      innerAudioContext.src = src;
-      innerAudioContext.play();
-    }
-  },
-
-  /**
-   * 停止播放音频
-   */
-  stop() {
-    if (innerAudioContext) {
-      innerAudioContext.stop();
-    }
-  },
-
-  /**
-   * 如果当前正在播放音频则停止，反之则播放
-   */
-  playOrStop(event) {
-
-    const src = event.currentTarget.dataset.comment.content.src;
-    const commentId = event.currentTarget.dataset.comment.id;
-    this.initInnerAudioContext();
-    if (commentId !== this.data.currentPlayingCommentId) {
-      this.play(src);
-    } else {
-      if (this.data.isPlaying) {
-        this.stop();
-      } else {
-        this.play(src);
-      }
-    }
-    this.setData({
-      currentPlayingCommentId: commentId
-    });
-    
-
-  },
-
 
   setFaveList(movieId) {
     qcloud.request({
@@ -178,6 +108,7 @@ Page({
 
     });
   },
+
   /**
    * 点赞表示喜欢
    */

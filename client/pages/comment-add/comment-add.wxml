@@ -12,7 +12,7 @@
       <image class="movie-image" src="{{movie.image}}"></image>
       <view class="movie-title">{{movie.title}}</view>
     </view>
-          <!-- 评论区域 -->
+      <!-- 评论区域 -->
       <view class="comment-info">
        <view class="comment-tips">请输入你的影评内容...</view>
        <view class="comment-rating">
@@ -22,17 +22,10 @@
         <block wx:if="{{commentType === 0}}" class="text-comment">
           <textarea class="content-textarea" auto-focus maxlength="{{textMaxLength}}" bindinput="onInput"></textarea>
           <view class="content-counter">{{text.length}}/{{textMaxLength}}</view>
-          
         </block>
         <!-- 语音评论 -->
         <block wx:if="{{commentType === 1}}">
-         
-          <view class="voice" wx:if="{{voice}}" style="width: {{voice.width}}rpx" bindtap="playOrStop" data-voice="{{voice}}">
-            <image class="voice-icon" src="../../images/{{isPlaying ? 'stop' : 'play'}}.png"></image>
-            <view class="voice-duration">{{voice.durationText}}</view>
-
-          </view>
-
+          <audio-player wx:if="{{voice}}" audio="{{voice}}"></audio-player>
           <!-- 录音按钮 -->
           <view class="action-buttons">
             <view id="record" class="{{isRecording ? 'recording' : ''}}" bindtouchstart="touchStart" bindtouchcancel="touchCancel" bindtouchend="touchEnd" bindtouchmove="touchMove">

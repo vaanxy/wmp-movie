@@ -3,7 +3,6 @@ const qcloud = require('../../vendor/wafer2-client-sdk/index')
 const config = require('../../config')
 
 const app = getApp();
-let innerAudioContext;
 
 Page({
 
@@ -42,75 +41,6 @@ Page({
         });
       },
     })
-  },
-
-
-
-  /**
- * 初始化音频播放控件
- */
-  initInnerAudioContext() {
-    if (!innerAudioContext) {
-      innerAudioContext = wx.createInnerAudioContext();
-      innerAudioContext.autoplay = false
-      innerAudioContext.onPlay(() => {
-        this.setData({
-          isPlaying: true
-        })
-      })
-      innerAudioContext.onError((res) => {
-        console.log(res.errMsg)
-        console.log(res.errCode)
-        this.setData({
-          isPlaying: false
-        })
-      });
-
-      innerAudioContext.onStop(() => {
-        this.setData({
-          isPlaying: false
-        })
-      });
-
-      innerAudioContext.onEnded(() => {
-        this.setData({
-          isPlaying: false
-        })
-      });
-    }
-  },
-
-  /**
-   * 播放音频
-   */
-  play(src) {
-    if (innerAudioContext) {
-      innerAudioContext.src = src;
-      innerAudioContext.play();
-    }
-
-  },
-
-  /**
-   * 停止播放音频
-   */
-  stop() {
-    if (innerAudioContext) {
-      innerAudioContext.stop();
-    }
-  },
-
-  /**
-   * 如果当前正在播放音频则停止，反之则播放
-   */
-  playOrStop(event) {
-    const src = event.currentTarget.dataset.voice.tempFilePath;
-    this.initInnerAudioContext();
-    if (this.data.isPlaying) {
-      this.stop();
-    } else {
-      this.play(src);
-    }
   },
 
   /**

@@ -6,7 +6,7 @@
     <view class="content">
       <view class="text-content" wx:if="{{comment.commentType === 0}}">{{comment.content}}</view>
       <view class="voice-content" wx:if="{{comment.commentType === 1}}">
-        <audio-player audio="{{comment.content}}" bind:tapplayer="tapPlayer" is-playing="{{isPlaying}}"></audio-player>
+        <audio-player audio="{{comment.content}}" bind:tapplayer="tapPlayer"></audio-player>
       </view>
     </view>
     <view class="user-info">

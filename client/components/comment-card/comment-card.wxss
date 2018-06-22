@@ -1,10 +1,11 @@
 /* components/comment-card/comment-card.wxss */
 :host {
   display: block;
+  height: 350rpx;
 }
 
 card {
-  height: 400rpx !important;
+  height: 100% !important;
 }
 
 .comment-info {
@@ -12,7 +13,7 @@ card {
 }
 
 .comment-info view {
-  margin: 10rpx 0;
+  margin: 12rpx 0;
 }
 
 .comment-info .title {

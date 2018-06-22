@@ -1,4 +1,8 @@
 /* pages/comment-add/comment-add.wxss */
+audio-player {
+  width: 500rpx !important;
+}
+
  .comment-tips {
   font-size: 30rpx;
   line-height: 60rpx;

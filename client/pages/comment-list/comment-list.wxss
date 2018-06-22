@@ -1,4 +1,7 @@
 /* pages/comment-list/comment-list.wxss */
+audio-player {
+  width: 500rpx !important;
+}
 
 .comment-list {
   margin-bottom: 100rpx;

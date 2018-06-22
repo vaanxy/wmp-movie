@@ -2,7 +2,7 @@
 const qcloud = require('../../vendor/wafer2-client-sdk/index')
 const config = require('../../config')
 const app = getApp()
-let innerAudioContext;
+
 Page({
 
   /**
@@ -11,8 +11,6 @@ Page({
   data: {
     userInfo: null,
     activedTab: 'published',
-    currentPlayingCommentId: null,
-    isPlaying: false,
     myFaveComments: [],
     myPublishedfaveComments: []
   },
@@ -25,84 +23,24 @@ Page({
     this.setData({
       activedTab: tab
     });
-  },
-  /**
-   * 初始化音频播放控件
-   */
-  initInnerAudioContext() {
-    if (!innerAudioContext) {
-      innerAudioContext = wx.createInnerAudioContext();
-      innerAudioContext.autoplay = false
-      innerAudioContext.onPlay(() => {
-        this.setData({
-          isPlaying: true
-        })
-      })
-      innerAudioContext.onError((res) => {
-        console.log(res.errMsg);
-        console.log(res.errCode);
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        });
-      });
-
-      innerAudioContext.onStop(() => {
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        })
-      });
-
-      innerAudioContext.onEnded(() => {
-        this.setData({
-          isPlaying: false,
-          currentPlayingCommentId: null
-        })
-      });
-    }
-  },
-  /**
-   * 播放音频
-   */
-  play(src) {
-    if (innerAudioContext) {
-      innerAudioContext.src = src;
-      innerAudioContext.play();
-    }
-  },
-
-  /**
-   * 停止播放音频
-   */
-  stop() {
-    if (innerAudioContext) {
-      innerAudioContext.stop();
-    }
-  },
-
-  /**
-   * 如果当前正在播放音频则停止，反之则播放
-   */
-  playOrStop(event) {
-    const src = event.detail.src;
-    const commentId = event.currentTarget.dataset.comment.id;
-    this.initInnerAudioContext();
-    if (commentId !== this.data.currentPlayingCommentId) {
-      this.play(src);
+    if (tab === 'published') {
+      this.getMyPublishedComments();
     } else {
-      if (this.data.isPlaying) {
-        this.stop();
-      } else {
-        this.play(src);
-      }
+      this.getMyFaveComments();
     }
-    this.setData({
-      currentPlayingCommentId: commentId
-    });
-
-
   },
+  
+  /**
+   * 点击音频播放后，先停止当前播放的audioContext，在将本次播放的audioContext设为当前audioContext
+   */
+  tapPlayer(event) {
+    const audioContext = event.detail.audioContext;
+    if (this.currentAudioContext && this.currentAudioContext !== audioContext) {
+      this.currentAudioContext.stop()
+    }
+    this.currentAudioContext = audioContext;
+  },
+
   /**
    * 获取我发布的影评列表 
    */
@@ -152,8 +90,40 @@ Page({
   },
 
   /**
- * 用户点击登陆
- */
+   * 取消收藏
+   */
+  unFave(event) {
+    const comment = event.currentTarget.dataset.comment;
+    qcloud.request({
+      url: config.service.toggleFave,
+      login: true,
+      method: 'PUT',
+      data: {
+        movieId: comment.movieId,
+        commentId: comment.id
+      },
+      success: () => {
+        wx.showToast({
+          title: '取消收藏成功',
+        });
+        let myFaveComments = [...this.data.myFaveComments];
+        myFaveComments = myFaveComments.filter(c => c.id !== comment.id);
+        this.setData({
+          myFaveComments: myFaveComments
+        });
+      },
+      fail: (err) => {
+        console.log(err);
+        wx.showToast({
+          title: '取消收藏失败',
+        });
+      }
+    });
+  },
+
+  /**
+   * 用户点击登陆
+   */
   onTapLogin() {
     wx.showLoading({
       title: '登陆中',

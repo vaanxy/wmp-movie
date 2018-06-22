@@ -3,6 +3,10 @@ page {
   background-color: #eee;
 }
 
+empty-tips-card {
+  margin: 37rpx 27rpx;
+}
+
 .wx-green {
   background-color: #1cb977;
 }

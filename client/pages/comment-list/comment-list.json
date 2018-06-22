@@ -1,6 +1,7 @@
 {
       "usingComponents": {
         "rating": "/components/rating/rating",
-        "audio-player": "/components/audio-player/audio-player"
+        "audio-player": "/components/audio-player/audio-player",
+        "empty-tips-card": "/components/empty-tips-card/empty-tips-card"
       }
 }
