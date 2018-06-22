@@ -19,7 +19,6 @@
   line-height: 28rpx;
   min-width: 100rpx;
   height: 60rpx;
-  margin: 32rpx;
 }
 
 .audio:hover {

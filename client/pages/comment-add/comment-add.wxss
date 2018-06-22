@@ -1,7 +1,10 @@
 /* pages/comment-add/comment-add.wxss */
 
 button.btn-finish {
-  width: 500rpx;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
   color: white;
   background-color: #1cb977;
 }
