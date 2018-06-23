@@ -1,5 +1,5 @@
 <!--pages/movie-list/movie-list.wxml-->
-<image class="bg" mode="widthFix" src="../../images/bg.png"></image>
+<image class="bg" mode="aspcetFill" src="../../images/bg.png"></image>
 <view class="search-box">
   <input class="search-box-input" placeholder="搜索电影..." bindinput="searchMovie"/>
   <image class="search-box-icon" src="../../images/search.png" mode="aspectFill"></image>

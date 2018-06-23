@@ -34,16 +34,6 @@ Page({
       movie,
       commentType
     });
-
-    // 动态调整container的高度
-    app.getWindowHeight({
-      success: (windowHeight) => {
-        this.setData({
-          containerHeight: windowHeight - 320
-        })
-      }
-    })
-
   },
 
   onInput(event) {

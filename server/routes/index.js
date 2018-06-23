@@ -41,12 +41,16 @@ router.get('/comment', controllers.comment.list)
 router.get('/comment/:id', controllers.comment.detail)
 // POST 添加影评
 router.post('/comment', validationMiddleware, controllers.comment.add)
+// GET 获取指定comment id的点赞信息
+router.get('/like/:commentId', validationMiddleware, controllers.like.like)
 // GET 获取用户是否点赞了指定movieId的下的相关评论
 router.get('/like', validationMiddleware, controllers.like.list)
 // PUT 点赞/取消点赞
 router.put('/like', validationMiddleware, controllers.like.toggleLike)
 // GET 获取用户是否收藏了指定movieId的下的相关评论
 router.get('/fave', validationMiddleware, controllers.fave.list)
+// GET 获取指定comment id的收藏信息
+router.get('/fave/:commentId', validationMiddleware, controllers.fave.fave)
 // PUT 收藏/取消收藏
 router.put('/fave', validationMiddleware, controllers.fave.toggleFave)
 // GET 获取我收藏的评论列表

@@ -19,46 +19,13 @@
     <view class="movie-description">{{movie.description}}</view>
   </view>
   <view slot="actions">
-    <button class="view-comments" bindtap="toCommentList">
+    <button bindtap="toCommentList">
       <image class="btn-icon" src="../../images/movie.png"></image>
       <view class="btn-text">查看影评</view>
     </button>
-    <button class="add-comment" bindtap="showActionSheet">
+    <button bindtap="showActionSheet">
       <image class="btn-icon" src="../../images/movie.png"></image>
       <view class="btn-text">添加影评</view>
     </button>
   </view>
 </movie-container>
-<!-- 
-<view class="movie-wrapper">
-  <view class="movie-info">
-    <image class="movie-image" mode="aspectFill" src="{{movie.image}}"></image>
-    <view class="movie-title">{{movie.title}}</view>
-    <view class="movie-rating">
-      <view class="rating-info">
-        <view class="rating-tips">侃侃评分</view>
-        <view class="rating-score">{{movie.avgRating}}/5.0</view>
-        <view class="rating-count">共{{movie.totalCount}}人评价</view>
-      </view>
-
-      <view class="rating-detail">
-        <view class="bar-wrapper" wx:for="{{movie.ratings}}" wx:key="score">
-          <view class="bar-tips">{{item.score}}星</view>
-          <view class="bar" style="width: {{item.count / movie.totalCount * 250}}rpx"></view>
-          <view>{{item.ratio}}%</view>
-        </view>
-      </view>
-    </view>
-    <view class="movie-description">{{movie.description}}</view>
-  </view>
-  <view class="action-buttons">
-    <button class="view-comments" bindtap="toCommentList">
-      <image class="btn-icon" src="../../images/movie.png"></image>
-      <view class="btn-text">查看影评</view>
-    </button>
-    <button class="add-comment" bindtap="showActionSheet">
-      <image class="btn-icon" src="../../images/movie.png"></image>
-      <view class="btn-text">添加影评</view>
-    </button>
-  </view>
-</view> -->

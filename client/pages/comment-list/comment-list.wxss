@@ -40,8 +40,8 @@ rating .star-wrapper {
 }
 
 .date {
-  font-size: 30rpx;
-  line-height: 42rpx;
+  font-size: 25rpx;
+  line-height: 30rpx;
   color: #d0d3d3;
 }
 
@@ -118,16 +118,20 @@ rating .star-wrapper {
   color: #d0d3d3;
 }
 .fave-text.active {
-  /* font-size: 30rpx;
-  line-height: 35rpx; */
   color: #ff9c16;
 }
 
-.wx-login {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.text-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow:ellipsis;
+  /* 以上4行实现超过2行的文字以...代替  */
+  font-weight: 300;
+  font-size: 25rpx;
+  line-height: 45rpx;
+  margin-right: 16rpx;
+  height: 90rpx; /* 强制高度为行高的2倍, 保证能完整显示2行文字 */
+  overflow: hidden;
+  word-break: break-all;
 }
-
-

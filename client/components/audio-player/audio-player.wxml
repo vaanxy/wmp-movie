@@ -1,6 +1,6 @@
 <!--components/audio-player/audio-player.wxml-->
-<view class="player-wrapper" catchtap="tapPlayer">
-  <view class="audio" style="width: {{widthRatio * 100}}%" data-comment="{{audio}}">
+<view class="player-wrapper">
+  <view class="audio" style="width: {{widthRatio * 100}}%" data-comment="{{audio}}" catchtap="tapPlayer">
     <image class="icon" src="../../images/{{isPlaying ? 'stop' : 'play'}}.png"></image>
     <view class="duration">{{durationText}}</view>
   </view>

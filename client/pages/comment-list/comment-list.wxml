@@ -3,7 +3,7 @@
       tips-title="还没有影评" 
       tips-content="快去尝试添加影评吧～"></empty-tips-card>
 <view wx:else class="comment-list">
-  <view class="comment-wrapper" wx:for="{{commentList}}" wx:key="id" wx:for-item="comment">
+  <view class="comment-wrapper" wx:for="{{commentList}}" wx:key="id" wx:for-item="comment" bindtap="toDetail" data-comment="{{comment}}">
     <image class="avator" src="{{comment.avatar}}"></image>
     <view class="comment-info">
       <view class="user">{{comment.username}}</view>
@@ -20,14 +20,14 @@
     
     <view class="actions">
       <!-- 点赞 -->
-      <view class="action-wrapper" bindtap="toggleLike" data-comment="{{comment}}">
+      <view class="action-wrapper" catchtap="toggleLike" data-comment="{{comment}}">
         <view class="like-icon">
           <image class="like {{isLikeList[comment.id] ? 'active' : ''}}" mode="aspectFill" src="../../images/like-animation.png"></image>
         </view>
         <view class="like-text {{isLikeList[comment.id] ? 'active' : ''}}">{{comment.likeCount}}</view>
       </view>
       <!-- 收藏 -->
-      <view class="action-wrapper" bindtap="toggleFave" data-comment="{{comment}}">
+      <view class="action-wrapper" catchtap="toggleFave" data-comment="{{comment}}">
         <view class="fave-icon">
           <image class="fave {{isFaveList[comment.id] ? 'active' : ''}}" mode="aspectFill" src="../../images/fave-animation.png"></image>
         </view>
@@ -36,9 +36,6 @@
       </view>
     </view>
   </view>
-
-
-
 </view>
 
 <button wx:if="{{!userInfo}}" class="wx-login wx-green"  open-type="getUserInfo" bindgetuserinfo="onTapLogin">

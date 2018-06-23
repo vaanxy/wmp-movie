@@ -1,1 +1,13 @@
 /* pages/comment-detail/comment-detail.wxss */
+movie-container {
+  margin-bottom: 100rpx;
+}
+
+button.action-button {
+  width: 31%;
+}
+
+
+button.action-button .btn-text {
+  font-size: 20rpx;
+}

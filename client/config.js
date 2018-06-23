@@ -39,9 +39,13 @@ var config = {
 
         likeList: `${host}/weapp/like?movieId=`,
 
+        like: `${host}/weapp/like/`,
+
         toggleFave: `${host}/weapp/fave`,
 
         faveList: `${host}/weapp/fave?movieId=`,
+
+        fave: `${host}/weapp/fave/`,
 
         myFaveComments: `${host}/weapp/me/fave`,
 

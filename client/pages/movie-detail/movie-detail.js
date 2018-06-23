@@ -24,7 +24,6 @@ Page({
       url: config.service.movieDetail + id,
       success: (res) => {
         wx.hideLoading();
-        console.log(res)
         if (!res.data.code) {
           const movie = res.data.data;
           console.log(movie);
@@ -33,6 +32,7 @@ Page({
           })
         } else {
           wx.showToast({
+            image: '../../images/error.png',
             title: '加载失败..',
           });
           setTimeout(() => {
@@ -44,7 +44,8 @@ Page({
         wx.hideLoading();
         console.log(err);
         wx.showToast({
-          title: '加载失败..',
+          image: '../../images/error.png',
+          title: '加载失败..'
         });
       }
     })
@@ -57,14 +58,10 @@ Page({
     wx.showActionSheet({
       itemList: actionTexts,
       success: (res) => {
-        // console.log(res.tapIndex)
         this.toAddComment(res.tapIndex);
       },
       fail: (res) => {
         console.log(res.errMsg);
-        wx.showToast({
-          title: '选择失败，请重试',
-        })
       }
     })
   },

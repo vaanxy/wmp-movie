@@ -49,7 +49,7 @@
   color: #637782;
 }
 
-.btn-icon {
+ .action-buttons button image {
   width: 50rpx;
   height: 50rpx;
   margin-right: 16rpx;

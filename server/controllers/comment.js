@@ -22,7 +22,7 @@ module.exports = {
     const commentId = +ctx.params.id;
     let comment = {};
     if (!isNaN(commentId)) {
-      movie = (await DB.query('select * from movie_comment where movie_comment.id = ?', [commentId]))[0] || null;
+      comment = (await DB.query('select movie_comment.id as `id`, movie.id as `movieId`, movie.title as `movieTitle`, movie.image as `movieImage`, comment_type as `commentType`, avatar, content, rating, movie_comment.user, username, movie_comment.create_time as `createTime`, count(comment_like.user) as `likeCount` from movie_comment join movie on movie.id = movie_comment.movie_id left join comment_like on movie_comment.id = comment_like.comment_id left join comment_fave on movie_comment.id = comment_fave.comment_id where movie_comment.id = ? group by movie_comment.id', [commentId]))[0] || null;
     }
     ctx.state.data = comment;
   },

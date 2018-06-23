@@ -30,4 +30,14 @@ module.exports = {
     ctx.state.data = {}
 
   },
+
+  like: async ctx => {
+    const commentId = +ctx.params.commentId;
+    const user = ctx.state.$wxInfo.userinfo.openId;
+    if (!isNaN(commentId)) {
+      ctx.state.data = (await DB.query('select * from comment_like where comment_like.user = ? AND comment_like.comment_id = ?', [user, commentId]))[0] || null;
+    } else {
+      ctx.state.code = -1;
+    }
+  }
 }

@@ -4,7 +4,7 @@
   <movie-container movie="{{movie}}">
     <view slot="content">
       <comment-editor wx:if="{{isEditing}}" comment-type="{{commentType}}" text="{{content}}" voice="{{content}}" rating="{{rating}}" bind:rated="onRated" bind:recorded="onRecorded" bind:input="onInput"></comment-editor>
-      <comment-previewer wx:else comment-type="{{commentType}}" content="{{content}}" rating="{{rating}}" user-info="{{userInfo}}" bind:toedit="toEdit" bind:publish="publish"></comment-previewer>
+      <comment-previewer wx:else comment-type="{{commentType}}" content="{{content}}" rating="{{rating}}" user-info="{{userInfo}}"></comment-previewer>
     </view>
 
      <!-- 预览影评 -->
@@ -14,7 +14,6 @@
       </button>
     </view>
     <!-- 重新影评 & 发布影评 -->
-
     <view slot="actions" wx:if="{{!isEditing}}">
       <button class="view-comments" bindtap="toEdit">
         <image class="btn-icon" src="../../images/movie.png"></image>
@@ -26,14 +25,4 @@
       </button>
     </view>
   </movie-container>
-  <!-- <view class="movie-wrapper" style="height: {{containerHeight}}rpx">
-    <view class="movie-info">
-      <image class="movie-image" src="{{movie.image}}"></image>
-      <view class="movie-title">{{movie.title}}</view>
-    </view>
-    <comment-editor wx:if="{{isEditing}}" comment-type="{{commentType}}" text="{{content}}" voice="{{content}}" rating="{{rating}}" bind:rated="onRated" bind:recorded="onRecorded" bind:input="onInput"></comment-editor>
-    <comment-previewer wx:else comment-type="{{commentType}}" content="{{content}}" rating="{{rating}}" user-info="{{userInfo}}" bind:toedit="toEdit" bind:publish="publish"></comment-previewer>
-  </view> -->
-
-
 </view>

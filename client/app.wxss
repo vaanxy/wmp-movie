@@ -11,49 +11,10 @@ empty-tips-card {
   background-color: #1cb977;
 }
 
-.movie-wrapper {
-  position: relative; 
-  margin: 128rpx 32rpx 64rpx;
-  background: white; 
-  padding: 32rpx 64rpx;
-}
-
-.movie-wrapper .movie-info {
-  margin-top: -100rpx;
-  text-align: center;
-}
-
-.movie-wrapper .movie-image {
-  width: 200rpx;
-  height: 300rpx;
-  border: 1px solid black;
-  margin: 0 auto;  
-
-}
-
-.movie-wrapper .movie-title {
-  text-align: center;
-  font-size: 40rpx;
-  line-height: 56rpx;
-}
-
-.action-buttons {
-  display: flex;
-  justify-content: space-between;
-}
-.action-buttons button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30rpx;
-  line-height: 48rpx;
-  padding: 16rpx;
-  width: 250rpx;
-  color: #637782;
-}
-
-.btn-icon {
-  width: 50rpx;
-  height: 50rpx;
-  margin-right: 16rpx;
+.wx-login {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0;
 }
