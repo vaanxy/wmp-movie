@@ -115,7 +115,6 @@ Page({
       url: config.service.likeList + movieId,
       login: true,
       success: (res) => {
-        console.log(res.data)
         if (!res.data.code) {
           const likeList = res.data.data.map(d => d.commentId);
           let isLikeList = []
@@ -138,7 +137,6 @@ Page({
    * 点赞表示喜欢
    */
   toggleLike(event) {
-    // console.log(event)
     if (!this.data.userInfo) {
       wx.showToast({
         image: '../../images/warning.png',

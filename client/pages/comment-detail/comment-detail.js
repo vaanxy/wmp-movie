@@ -29,7 +29,6 @@ Page({
       url: config.service.commentDetail + commentId,
       success: (res) => {
         wx.hideLoading();
-        console.log(res);
         if (!res.data.code) {
           wx.showToast({
             title: '加载评论成功',
@@ -198,7 +197,6 @@ Page({
       login: true,
       success: (res) => {
         if (!res.data.code) {
-          console.log(res.data.data);
           if (res.data.data) {
             this.setData({
               isLike: true
@@ -227,7 +225,6 @@ Page({
       login: true,
       success: (res) => {
         if (!res.data.code) {
-          console.log(res.data.data);
           if (res.data.data) {
             this.setData({
               isFave: true
@@ -265,7 +262,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options);
     const commentId = +options.commentId;
     this.setData({
       commentId

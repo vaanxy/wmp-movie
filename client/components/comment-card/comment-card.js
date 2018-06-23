@@ -25,7 +25,6 @@ Component({
    */
   methods: {
     tapPlayer(event) {
-      // console.log(event);
       this.triggerEvent("tapplayer", { audioContext: event.detail.audioContext})
     }
   }

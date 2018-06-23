@@ -26,7 +26,6 @@ Page({
         wx.hideLoading();
         if (!res.data.code) {
           const movie = res.data.data;
-          console.log(movie);
           this.setData({
             movie
           })

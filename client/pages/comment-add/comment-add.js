@@ -81,7 +81,6 @@ Page({
         name: 'file',
         success: res => {
           let data = JSON.parse(res.data)
-          console.log(data)
 
           if (!data.code) {
             const voice = {

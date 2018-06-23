@@ -129,15 +129,12 @@ Component({
     },
 
     touchCancel(event) {
-      console.log('cancel')
-      console.log(event)
       this.setData({
         isRecording: false
       })
     },
 
     touchEnd(event) {
-      // console.log('end recording')
       const point = event.changedTouches[0]
       this.setData({
         isRecording: false,

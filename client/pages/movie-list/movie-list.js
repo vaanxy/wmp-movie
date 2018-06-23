@@ -27,7 +27,6 @@ Page({
 
   searchMovie(event) {
     const { value, curor } = event.detail;
-    console.log(value)
     const filteredMovieList = this.data.movieList.filter(movie => movie.title.toLowerCase().indexOf(value) >= 0);
     this.setData({
       filteredMovieList
