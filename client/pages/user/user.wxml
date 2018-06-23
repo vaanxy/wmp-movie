@@ -14,6 +14,7 @@
     tips-content="快去尝试发布影评吧～"></empty-tips-card>
     <view class="comment-list" wx:else>
       <comment-card
+        bindtap="toDetail"
         data-comment="{{comment}}"
         bind:tapplayer="tapPlayer"
         image-src="../../images/user.png" wx:for="{{myPublishedComments}}" wx:key="id" wx:for-item="comment"
@@ -32,6 +33,7 @@
       tips-content="快去尝试收藏影评吧～"></empty-tips-card>
     <view wx:else class="comment-list">
       <comment-card
+        bindtap="toDetail"
         data-comment="{{comment}}"
         bind:tapplayer="tapPlayer"
         wx:for="{{myFaveComments}}" wx:key="id" wx:for-item="comment"

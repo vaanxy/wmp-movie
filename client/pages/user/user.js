@@ -29,7 +29,7 @@ Page({
       this.getMyFaveComments();
     }
   },
-  
+
   /**
    * 点击音频播放后，先停止当前播放的audioContext，在将本次播放的audioContext设为当前audioContext
    */
@@ -154,6 +154,16 @@ Page({
     });
     this.getMyPublishedComments();
     this.getMyFaveComments();
+  },
+
+  /**
+   * 跳转至评论详情页
+   */
+  toDetail(event) {
+    const commentId = event.currentTarget.dataset.comment.id;
+    wx.navigateTo({
+      url: '/pages/comment-detail/comment-detail?commentId=' + commentId,
+    });
   },
 
   /**
