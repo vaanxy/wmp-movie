@@ -277,7 +277,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 将获取列表的函数放到onShow来执行是因为在评论详情页面可能会执行“收藏”和“点赞的操作”，返回列表页面后也要刷新相关信息
+    // 将获取列表的函数放到onShow来执行是因为在评论详情页面可能会执行“收藏”和“点赞的操作”，
+    // 返回列表页面后也要刷新相关信息
     this.getCommentList(this.data.movieId, () => {
       if (this.data.userInfo) {
         this.setLikeList(this.data.movieId);
@@ -293,6 +294,18 @@ Page({
       error: (err) => {
         console.log(err)
       }
+    });
+  },
+  /**
+   * 下拉刷新评论列表
+   */
+  onPullDownRefresh() {
+    this.getCommentList(this.data.movieId, () => {
+      if (this.data.userInfo) {
+        this.setLikeList(this.data.movieId);
+        this.setFaveList(this.data.movieId);
+      }
+      wx.stopPullDownRefresh()
     });
   }
 })

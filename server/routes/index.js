@@ -41,6 +41,8 @@ router.get('/comment', controllers.comment.list)
 router.get('/comment/:id', controllers.comment.detail)
 // POST 添加影评
 router.post('/comment', validationMiddleware, controllers.comment.add)
+// GET 获取影评推荐信息
+router.get('/recommend', validationMiddleware, controllers.comment.recommend)
 // GET 获取指定comment id的点赞信息
 router.get('/like/:commentId', validationMiddleware, controllers.like.like)
 // GET 获取用户是否点赞了指定movieId的下的相关评论

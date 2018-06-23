@@ -10,7 +10,7 @@ swiper-item {
 }
 
 .movie-info {
-  margin: 64rpx;
+  margin: 50rpx;
 }
 
 

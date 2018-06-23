@@ -1,9 +1,8 @@
 {
   "pages":[
-    "pages/movie-list/movie-list",
     "pages/home/home",
     "pages/user/user",
-
+    "pages/movie-list/movie-list",
     "pages/movie-detail/movie-detail",
     "pages/comment-list/comment-list",
     "pages/comment-detail/comment-detail",
@@ -13,7 +12,7 @@
     "list": [
       {
         "pagePath": "pages/home/home",
-        "text": "精选",
+        "text": "精选推荐",
         "iconPath": "images/unstar.png",
         "selectedIconPath": "images/star.png"
       },
@@ -22,12 +21,6 @@
         "text": "搜电影",
         "iconPath": "images/movie.png",
         "selectedIconPath": "images/movie-sel.png"
-      },
-      {
-        "pagePath": "pages/movie-list/movie-list",
-        "text": "热门影评",
-        "iconPath": "images/hot.png",
-        "selectedIconPath": "images/hot-sel.png"
       },
       {
         "pagePath": "pages/user/user",

@@ -1,3 +1,6 @@
 {
-
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "login": "/components/login/login"
+  }
 }

@@ -1,6 +1,8 @@
 // pages/home/home.js
 const qcloud = require('../../vendor/wafer2-client-sdk/index')
 const config = require('../../config')
+
+const app = getApp();
 /**
  * 主页用于显示精选影评
  */
@@ -10,7 +12,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    movieList: [],
+    userInfo: null,
+    recommendList: [],
     selectedMovie: null,
     swiperHeight: 0,
     pressedAnimation: {},
@@ -18,154 +21,143 @@ Page({
   },
 
   setSwiperHeight() {
-    wx.getSystemInfo({
-      success: (res) => {
-        let swiperHeight = 750 / res.windowWidth * res.windowHeight;
+    app.getWindowHeight({
+      success: (swiperHeight) => {
         this.setData({
           swiperHeight
         });
       }
-    })
-    
+    });
   },
 
-/**
- * 生命周期函数--监听页面加载
- */
-onLoad: function (options) {
-  this.setSwiperHeight();
-  qcloud.request({
-    'url': config.service.movieList,
-    success: res => {
-      let movieList = []
-      if (!res.data.code) {
-        movieList = res.data.data
-        this.setData({
-          movieList
-        })
+  /**
+   * 获取推荐影评信息
+   */
+  getRecommends(cb) {
+    wx.showLoading({
+      title: '推荐中...',
+    });
+    qcloud.request({
+      'url': config.service.recommend,
+      login: true,
+      success: res => {
+        wx.hideLoading();
+        let recommendList = []
+        if (!res.data.code) {
+          recommendList = res.data.data
+          this.setData({
+            recommendList
+          });
+          wx.showToast({
+            title: '推荐成功',
+          });
+
+        } else {
+          wx.showToast({
+            image: '../../images/error.png',
+            title: '推荐失败',
+          });
+        }
+
+      },
+      fail: () => {
+        wx.hideLoading();
+        wx.showToast({
+          image: '../../images/error.png',
+          title: '推荐失败',
+        });
+      },
+      complete: () => {
+        cb && cb();
       }
-      console.log(res)
-    }
-  })
-},
-  pressed() {
-    console.log('pressed')
-    let animation = wx.createAnimation({
-      duration: 300,
-      timingFunction: 'ease-out',
     })
+  },
 
-    animation
-      .scale(0.95).step()
-    this.setData({
-      pressedAnimation: animation.export(),
-      isPressed: true
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    this.setSwiperHeight();
+    this.getRecommends()
+  },
+
+  /**
+   * 跳转至评论详情页
+   */
+  toCommentDetail(event) {
+    const commentId = event.currentTarget.dataset.comment.id;
+    wx.navigateTo({
+      url: '/pages/comment-detail/comment-detail?commentId=' + commentId,
     });
   },
 
-  touchMove() {
-    console.log('touchMove')
-    let animation = wx.createAnimation({
-      duration: 300,
-      timingFunction: 'ease-out',
-    })
-
-    animation
-      .scale(1).step()
-    
-    this.setData({
-      pressedAnimation: animation,
-      isPressed: false
+  /**
+   * 跳转至电影详情页
+   */
+  toMovieDetail(event) {
+    const movieId = event.currentTarget.dataset.comment.movieId;
+    wx.navigateTo({
+      url: '/pages/movie-detail/movie-detail?id=' + movieId,
     });
   },
-  
-touchEnd() {
-  if (this.data.isPressed) {
-    console.log('animate')
-    let animation = wx.createAnimation({
-      duration: 300,
-      timingFunction: 'ease-out',
+
+  /**
+   * 登陆成功后设置userInfo, 并初始化录音管理器
+   */
+  onLoginSuccess(userInfo) {
+
+    this.setData({
+      userInfo
+    });
+  },
+
+  /**
+   * 点击登录
+   */
+  onTapLogin() {
+    wx.showLoading({
+      title: '登陆中',
+      mask: true
+    });
+    app.login({
+      success: (userInfo) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '登陆成功',
+        })
+        this.onLoginSuccess(userInfo);
+
+      },
+      error: (err) => {
+        wx.hideLoading()
+        wx.showToast({
+          image: '../../images/error.png',
+          title: '登陆失败',
+        })
+        console.log(err);
+      }
     })
+  },
 
-    animation
-      .translateY(-300).scale(1.3).step()
 
-    this.setData({
-      pressedAnimation: animation.export(),
-      isPressed: false
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+    app.checkSession({
+      success: (userInfo) => {
+        this.onLoginSuccess(userInfo);
+      },
+      error: (err) => {
+        console.log(err)
+      }
     });
+  },
 
-    this.setData({
-      selectedMovie: this.data.movieList[0]
-    });
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+    this.getRecommends(() => wx.stopPullDownRefresh());
   }
-  
-  
-},
-close() {
-  let animation = wx.createAnimation({
-    duration: 300,
-    timingFunction: 'ease-out',
-  })
-  animation
-    .scale(1).translateY(0).step();
-
-  this.setData({
-    pressedAnimation: animation.export()
-  });
-  setTimeout(() => {
-    this.setData({
-      selectedMovie: null
-    });
-  }, 400)
-  
-},
-/**
- * 生命周期函数--监听页面初次渲染完成
- */
-onReady: function () {
-
-},
-
-/**
- * 生命周期函数--监听页面显示
- */
-onShow: function () {
-
-},
-
-/**
- * 生命周期函数--监听页面隐藏
- */
-onHide: function () {
-
-},
-
-/**
- * 生命周期函数--监听页面卸载
- */
-onUnload: function () {
-
-},
-
-/**
- * 页面相关事件处理函数--监听用户下拉动作
- */
-onPullDownRefresh: function () {
-
-},
-
-/**
- * 页面上拉触底事件的处理函数
- */
-onReachBottom: function () {
-
-},
-
-/**
- * 用户点击右上角分享
- */
-onShareAppMessage: function () {
-
-}
 })

@@ -46,4 +46,31 @@ module.exports = {
 
     ctx.state.data = {}
   },
+
+  /**
+   * 获取推荐影评(不会推荐自己的影评和已收藏的影评给自己)
+   * 随机推荐1部较新的影评
+   * 随机推荐1条点赞数多的影评
+   * 随机推荐1部评分高电影的影评
+   */
+  recommend: async ctx => {
+    const me = ctx.state.$wxInfo.userinfo.openId;
+    const recommends = []
+    
+    const newComment = (await DB.query('select movie.id as `movieId`, movie.title as `movieTitle`, movie.image as `movieImage`, movie_comment.id as `id`, movie_comment.username as `recommender`, movie_comment.avatar as `avatar` from movie_comment join movie on movie.id=movie_comment.movie_id left join comment_fave on movie_comment.id=comment_fave.comment_id where movie_comment.user <> ? and (comment_fave.user is null or comment_fave.user <> ?) order by movie_comment.create_time desc limit 3', [me, me])) || null;
+    if (newComment) {
+      recommends.push(newComment[Math.floor(Math.random() * newComment.length)]);
+    }
+    const highLikeComment = (await DB.query('select movie.id as `movieId`, movie.title as `movieTitle`, movie.image as `movieImage`, movie_comment.id as `id`, movie_comment.username as `recommender`, movie_comment.avatar as `avatar`, (select count(*) from comment_like where comment_like.comment_id = movie_comment.id group by movie_comment.id) as `likeCount` from movie_comment join movie on movie.id=movie_comment.movie_id left join comment_fave on movie_comment.id=comment_fave.comment_id where movie_comment.user <> ? and (comment_fave.user is null or comment_fave.user <> ?) order by `likeCount` desc limit 3', [me, me])) || null;
+    if (highLikeComment) {
+      recommends.push(highLikeComment[Math.floor(Math.random() * highLikeComment.length)]);
+    }
+
+    const highRatingComment = (await DB.query('select movie.id as `movieId`, movie.title as `movieTitle`, movie.image as `movieImage`, movie_comment.id as `id`, movie_comment.username as `recommender`, movie_comment.avatar as `avatar` from movie_comment join movie on movie.id=movie_comment.movie_id left join comment_fave on movie_comment.id=comment_fave.comment_id where movie_comment.user <> ? and (comment_fave.user is null or comment_fave.user <> ?) order by movie_comment.rating desc limit 3', [me, me])) || null;
+
+    if (highRatingComment) {
+      recommends.push(highRatingComment[Math.floor(Math.random() * highRatingComment.length)]);
+    }
+    ctx.state.data = recommends
+  }
 }

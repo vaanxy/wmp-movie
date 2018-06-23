@@ -174,6 +174,7 @@ Page({
       error: (err) => {
         wx.hideLoading()
         wx.showToast({
+          image: '../../images/error.png',
           title: '登陆失败',
         })
         console.log(err);

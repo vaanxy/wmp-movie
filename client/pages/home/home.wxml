@@ -1,17 +1,15 @@
-<view class="close" wx:if="{{selectedMovie}}" bindtap="close">x</view>
-<swiper style="height: {{swiperHeight}}rpx">
-  <block wx:for="{{movieList}}" wx:key="id" wx:for-item="movie">
+<login wx:if="{{!userInfo}}" bind:login="onTapLogin" tips="点击微信登录后才可获取精选推荐"></login>
+<swiper wx:else style="height: {{swiperHeight}}rpx" indicator-dots="true">
+  <block wx:for="{{recommendList}}" wx:key="id" wx:for-item="comment">
     <swiper-item>
-      <view animation="{{pressedAnimation}}" class="recommend-wrapper {{selectedMovie? 'animate' : ''}}">
-        <!-- <view class="close" wx:if="{{activedMovieId === 1}}">x</view> -->
-        <view class="movie-info" bindtouchstart="pressed" bindtouchmove="touchMove" bindtouchcancel="touchMove" bindtouchend="touchEnd">
-          <image class="movie-image" mode="widthFix" src="../../images/user-unlogin.png"></image>
-          <view class="movie-title">{{movie.title}}</view>
+      <view class="recommend-wrapper {{selectedMovie? 'animate' : ''}}">
+        <view class="movie-info" bindtap="toMovieDetail" data-comment="{{comment}}">
+          <image class="movie-image" mode="aspectFill" style="height: {{swiperHeight - 300}}rpx" src="{{comment.movieImage}}"></image>
+          <view class="movie-title">{{comment.movieTitle}}</view>
         </view>
-
-        <view class="recommend-info">
-          <image class="avator" src="../../images/user-unlogin.png"></image>
-          <view class="content">超级好的的电影，赞赞赞</view>
+        <view class="recommend-info"  data-comment="{{comment}}" bindtap="toCommentDetail">
+          <image class="avator" src="{{comment.avatar}}"></image>
+          <view class="content">{{comment.recommender}}推荐给你一部电影</view>
         </view>
       </view>
     </swiper-item>

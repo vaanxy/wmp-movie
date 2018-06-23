@@ -15,8 +15,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getMovieList()
+
   },
+
+  /**
+   * 每次添加评论之后返回该页面，由于电影评分变了，所以得刷新电影列表，所以在onShow中调用获取电影列表的函数
+   */
+  onShow() {
+    this.getMovieList();
+  },
+
   searchMovie(event) {
     const { value, curor } = event.detail;
     console.log(value)
@@ -26,7 +34,7 @@ Page({
     })
   },
 
-  getMovieList() {
+  getMovieList(cb) {
     wx.showLoading({
       title: '加载电影列表中',
     })
@@ -35,7 +43,7 @@ Page({
       success: res => {
         wx.hideLoading();
         if (!res.data.code) {
-          let movieList = res.data.data
+          let movieList = res.data.data ? res.data.data : [];
           movieList = movieList.map((movie) => {
             return Object.assign({}, movie, {avgRating: movie.avgRating.toFixed(1)});
           });
@@ -62,6 +70,9 @@ Page({
           title: '加载失败'
         });
         console.log(err)
+      },
+      complete: () => {
+        cb && cb();
       }
     })
   }
