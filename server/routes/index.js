@@ -39,6 +39,8 @@ router.get('/movie/:id', controllers.movie.detail)
 router.get('/comment', controllers.comment.list)
 // GET 获取影评详情
 router.get('/comment/:id', controllers.comment.detail)
+// GET 获取指定电影id的我的影评
+router.get('/mycomment', validationMiddleware, controllers.comment.myComment)
 // POST 添加影评
 router.post('/comment', validationMiddleware, controllers.comment.add)
 // GET 获取影评推荐信息

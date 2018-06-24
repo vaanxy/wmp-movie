@@ -21,9 +21,10 @@
     <view class="audio-wrapper">
       <audio-player wx:if="{{voice}}" audio="{{voice}}" bind:tapplayer="tapPlayer"></audio-player>
     </view>
-
+    <!-- 0: 未弹窗， 1: 已拒绝， 2: 已同意 -->
     <!-- 录音按钮 -->
-    <view class="recorder {{isRecording ? 'recording' : ''}}" bindtouchstart="touchStart" bindtouchcancel="touchCancel" bindtouchend="touchEnd" bindtouchmove="touchMove">
+    <button wx:if="{{authType !== 2}}" open-type="openSetting" bindopensetting="openSetting">点击获取录音权限</button>
+    <view wx:if="{{authType === 2}}" class="recorder {{isRecording ? 'recording' : ''}}" bindtouchstart="touchStart" bindtouchcancel="touchCancel" bindtouchend="touchEnd" bindtouchmove="touchMove">
       <image class="record-icon" src="../../images/voice.png"></image>
       <view class="record-text">{{isRecording ? '松开 结束' : '按住 说话'}}</view>
     </view>

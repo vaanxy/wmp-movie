@@ -53,6 +53,8 @@ var config = {
 
         myPublishedComments: `${host}/weapp/me/published`,
 
+        myComment: `${host}/weapp/mycomment?movieId=`,
+
 
     }
 };

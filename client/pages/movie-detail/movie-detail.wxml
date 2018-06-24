@@ -20,12 +20,20 @@
   </view>
   <view slot="actions">
     <button bindtap="toCommentList">
-      <image class="btn-icon" src="../../images/movie.png"></image>
+      <image class="btn-icon" src="../../images/read.png"></image>
       <view class="btn-text">查看影评</view>
     </button>
-    <button bindtap="showActionSheet">
-      <image class="btn-icon" src="../../images/movie.png"></image>
+    <button bindtap="showActionSheet" wx:if="{{userInfo && !myCommentId}}">
+      <image class="btn-icon" src="../../images/edit.png"></image>
       <view class="btn-text">添加影评</view>
+    </button>
+    <button bindtap="toMyComment" wx:if="{{myCommentId}}">
+      <image class="btn-icon" src="../../images/comment.png"></image>
+      <view class="btn-text">我的影评</view>
     </button>
   </view>
 </movie-container>
+
+<button wx:if="{{!userInfo}}" class="wx-login wx-green" open-type="getUserInfo" bindgetuserinfo="onTapLogin">
+  点击登录 方可添加影评
+</button>

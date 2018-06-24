@@ -38,13 +38,26 @@ module.exports = {
     let movieId = +ctx.request.body.movieId;
     let rating = +ctx.request.body.rating;
     let commentType = +ctx.request.body.commentType;
-    
-    
+
+
     if (!isNaN(movieId)) {
       await DB.query('INSERT INTO movie_comment(movie_id, comment_type, rating, user, username, avatar, content) VALUES (?, ?, ?, ?, ?, ?, ?)', [movieId, commentType, rating, user, username, avatar, content]);
     }
 
     ctx.state.data = {}
+  },
+
+  /**
+   * 获取指定movie id的我的影评
+   */
+  myComment: async ctx => {
+    let user = ctx.state.$wxInfo.userinfo.openId;
+    let movieId = +ctx.request.query.movieId;
+    if (!isNaN(movieId)) {
+      ctx.state.data = (await DB.query('select movie_comment.id , movie_comment.user, movie_comment.create_time as `createTime` from movie_comment where movie_comment.movie_id = ? and movie_comment.user = ?', [movieId, user]))[0] || null;
+    } else {
+      ctx.state.code = -1;
+    }
   },
 
   /**
@@ -56,7 +69,7 @@ module.exports = {
   recommend: async ctx => {
     const me = ctx.state.$wxInfo.userinfo.openId;
     const recommends = []
-    
+
     const newComment = (await DB.query('select movie.id as `movieId`, movie.title as `movieTitle`, movie.image as `movieImage`, movie_comment.id as `id`, movie_comment.username as `recommender`, movie_comment.avatar as `avatar` from movie_comment join movie on movie.id=movie_comment.movie_id left join comment_fave on movie_comment.id=comment_fave.comment_id where movie_comment.user <> ? and (comment_fave.user is null or comment_fave.user <> ?) order by movie_comment.create_time desc limit 3', [me, me])) || null;
     if (newComment) {
       recommends.push(newComment[Math.floor(Math.random() * newComment.length)]);

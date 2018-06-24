@@ -1,9 +1,10 @@
 <!--pages/comment-detail/comment-detail.wxml-->
-<!-- <login wx:if="{{!userInfo}}" bind:login="onTapLogin" tips="点击微信登录后才可添加评论"></login> -->
 <movie-container movie="{{movie}}">
+
   <view slot="content">
     <comment-previewer rating="{{comment.rating}}" comment-type="{{comment.commentType}}" content="{{comment.content}}" user-info="{{commentUserInfo}}"></comment-previewer>
   </view>
+
   <view slot="actions">
     <button class="action-button" bindtap="toggleFave">
       <image class="btn-icon" src="{{isFave ? '../../images/star.png' : '../../images/unstar.png'}}"></image>
@@ -13,13 +14,17 @@
       <image class="btn-icon" src="{{isLike ? '../../images/heart-sel.png' : '../../images/heart.png'}}"></image>
       <view class="btn-text">{{comment.likeCount > 9999 ? '9999+' : comment.likeCount}}</view>
     </button>
-    <button class="action-button" bindtap="showActionSheet">
-      <image class="btn-icon" src="../../images/movie.png"></image>
+    <button class="action-button" bindtap="showActionSheet" wx:if="{{userInfo && !myCommentId}}">
+      <image class="btn-icon" src="../../images/edit.png"></image>
       <view class="btn-text">写影评</view>
+    </button>
+    <button class="action-button" bindtap="toMyComment"  wx:if="{{myCommentId && myCommentId !== comment.id}}">
+      <image class="btn-icon" src="../../images/comment.png"></image>
+      <view class="btn-text">我的影评</view>
     </button>
   </view>
 </movie-container>
 
-<button wx:if="{{!userInfo}}" class="wx-login wx-green"  open-type="getUserInfo" bindgetuserinfo="onTapLogin">
+<button wx:if="{{!userInfo}}" class="wx-login wx-green" open-type="getUserInfo" bindgetuserinfo="onTapLogin">
   微信登录
 </button>

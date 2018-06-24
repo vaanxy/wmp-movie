@@ -1,5 +1,7 @@
 /* pages/movie-detail/movie-detail.wxss */
-
+movie-container {
+  margin-bottom: 100rpx;
+}
 .movie-rating {
   margin: 32rpx; 
   display: flex;

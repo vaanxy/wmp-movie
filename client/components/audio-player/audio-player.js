@@ -118,9 +118,11 @@ Component({
       })
     }
   },
+
   attached() {
     this.initInnerAudioContext();
   },
+  
   detached() {
     if (this.audioContext) {
       this.audioContext.destroy();

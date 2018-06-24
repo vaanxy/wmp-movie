@@ -25,6 +25,9 @@ Page({
     this.getMovieList();
   },
 
+  /**
+   * 搜索过滤电影列表
+   */
   searchMovie(event) {
     const { value, curor } = event.detail;
     const filteredMovieList = this.data.movieList.filter(movie => movie.title.toLowerCase().indexOf(value) >= 0);
@@ -33,6 +36,10 @@ Page({
     })
   },
 
+  /**
+   * 获取电影列表
+   * @param: cb 电影列表获取成功后执行的回调函数
+   */
   getMovieList(cb) {
     wx.showLoading({
       title: '加载电影列表中',

@@ -1,7 +1,8 @@
 // pages/movie-detail/movie-detail.js
-const qcloud = require('../../vendor/wafer2-client-sdk/index')
-const config = require('../../config')
+const qcloud = require('../../vendor/wafer2-client-sdk/index');
+const config = require('../../config');
 
+const app = getApp();
 const actionTexts = ["文字", "语音"];
 
 Page({
@@ -10,7 +11,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-    movie: null
+    movieId: null,
+    movie: null,
+    userInfo: null,
+    myCommentId: null //当前电影我所写的影评id，如果没有写过则为null
   },
 
   /**
@@ -51,6 +55,15 @@ Page({
   },
 
   /**
+   * 跳转至我的评论
+   */
+  toMyComment() {
+    wx.navigateTo({
+      url: '/pages/comment-detail/comment-detail?commentId=' + this.data.myCommentId + '&movieId=' + this.data.movieId,
+    });
+  },
+
+  /**
    * 打开action sheet选择是语音影评还是文字影评
    */
   showActionSheet() {
@@ -78,6 +91,9 @@ Page({
     });
   },
 
+  /**
+   * 前往影评列表
+   */
   toCommentList() {
     if (!this.data.movie) return;
     const movieId = this.data.movie.id;
@@ -86,74 +102,102 @@ Page({
     });
   },
 
+  /**
+   * 获取当前用户是否为该电影写过影评的记录，
+   * 若编写过影评则只能跳转至该用户所写的影评，而不能再次为该电影添加新的影评
+   */
+  getMyMovieComment(movieId) {
+    qcloud.request({
+      url: config.service.myComment + movieId,
+      success: (res) => {
+        if (!res.data.code) {
+          const comment = res.data.data;
+          if (comment) {
+            this.setData({
+              myCommentId: comment.id
+            })
+          }
+
+        }
+      },
+      fail: (err) => {
+        console.log(err);
+      }
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    * 页面加载时根据传入参数id获取电影详情，
    * 若传入参数有误，则提示，并返回电影列表页面
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     const movieId = +options.id;
+    this.setData({
+      movieId
+    });
     if (!isNaN(movieId)) {
       this.getMovie(movieId);
     } else {
       wx.showToast({
-        icon: 'none',
+        image: '../../images/error.png',
         title: '错误: 未知电影',
       })
       setTimeout(() => {
         wx.navigateBack();
       }, 2000);
     }
-    
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 用户点击登陆
    */
-  onReady: function () {
-  
+  onTapLogin() {
+    wx.showLoading({
+      title: '登陆中',
+      mask: true
+    });
+    app.login({
+      success: (userInfo) => {
+        wx.hideLoading()
+        wx.showToast({
+          title: '登陆成功',
+        })
+        this.onLoginSuccess(userInfo);
+      },
+      error: (err) => {
+        wx.hideLoading()
+        wx.showToast({
+          image: '../../images/error.png',
+          title: '登陆失败',
+        })
+        console.log(err);
+      }
+    })
   },
+
+  /**
+   * 登陆成功后获取用户点赞和收藏信息，并绑定显示
+   */
+  onLoginSuccess(userInfo) {
+    this.setData({
+      userInfo
+    });
+    this.getMyMovieComment(this.data.movieId);
+  },
+
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function() {
+    app.checkSession({
+      success: (userInfo) => {
+        this.onLoginSuccess(userInfo);
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    });
   },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  }
 })

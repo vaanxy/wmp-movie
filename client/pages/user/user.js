@@ -161,8 +161,9 @@ Page({
    */
   toDetail(event) {
     const commentId = event.currentTarget.dataset.comment.id;
+    const movieId = event.currentTarget.dataset.comment.movieId;
     wx.navigateTo({
-      url: '/pages/comment-detail/comment-detail?commentId=' + commentId,
+      url: '/pages/comment-detail/comment-detail?commentId=' + commentId + '&movieId=' + movieId,
     });
   },
 

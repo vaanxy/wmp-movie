@@ -50,7 +50,7 @@
 }
 
  .action-buttons button image {
-  width: 50rpx;
-  height: 50rpx;
+  width: 40rpx;
+  height: 40rpx;
   margin-right: 16rpx;
 }

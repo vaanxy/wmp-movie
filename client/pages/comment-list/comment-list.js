@@ -219,7 +219,7 @@ Page({
   toDetail(event) {
     const commentId = event.currentTarget.dataset.comment.id;
     wx.navigateTo({
-      url: '/pages/comment-detail/comment-detail?commentId=' + commentId ,
+      url: '/pages/comment-detail/comment-detail?commentId=' + commentId + '&movieId=' + this.data.movieId,
     });
   },
 

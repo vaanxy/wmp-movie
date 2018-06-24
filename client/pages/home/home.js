@@ -20,6 +20,9 @@ Page({
     isPressed: false
   },
 
+  /**
+   * 动态这是swiper的高度
+   */
   setSwiperHeight() {
     app.getWindowHeight({
       success: (swiperHeight) => {
@@ -78,7 +81,6 @@ Page({
    */
   onLoad: function(options) {
     this.setSwiperHeight();
-    this.getRecommends()
   },
 
   /**
@@ -86,8 +88,9 @@ Page({
    */
   toCommentDetail(event) {
     const commentId = event.currentTarget.dataset.comment.id;
+    const movieId = event.currentTarget.dataset.comment.movieId;
     wx.navigateTo({
-      url: '/pages/comment-detail/comment-detail?commentId=' + commentId,
+      url: '/pages/comment-detail/comment-detail?commentId=' + commentId + '&movieId=' + movieId,
     });
   },
 
@@ -105,7 +108,7 @@ Page({
    * 登陆成功后设置userInfo, 并初始化录音管理器
    */
   onLoginSuccess(userInfo) {
-
+    this.getRecommends();
     this.setData({
       userInfo
     });
@@ -126,7 +129,6 @@ Page({
           title: '登陆成功',
         })
         this.onLoginSuccess(userInfo);
-
       },
       error: (err) => {
         wx.hideLoading()

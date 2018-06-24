@@ -51,8 +51,9 @@
 }
 
 .movie-image {
-  min-width: 200rpx;
-  max-width: 200rpx;
+  min-width: 220rpx;
+  max-width: 220rpx;
+  height: 300rpx;
   overflow: hidden;
   /* width: 200rpx;
   height: 200rpx;
